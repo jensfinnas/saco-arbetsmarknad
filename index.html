@@ -1,32 +1,6 @@
-<!doctype html>
-<html class="no-js">
-  <head>
-    <meta charset="utf-8">
-    <title>saco arbetsmarknad</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="_bower_components/c3/c3.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
-
-  </head>
-  <body>
-    <!--[if lt IE 10]>
+<!DOCTYPE html> <html class=no-js> <head> <meta charset=utf-8> <title>saco arbetsmarknad</title> <meta name=description content=""> <meta name=viewport content="width=device-width"> <link rel="shortcut icon" href=/6df2b309.favicon.ico> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel=stylesheet href=styles/vendor.css> <link rel=stylesheet href=styles/74d74cf3.main.css> <script src=scripts/vendor/fbe20327.modernizr.js></script>  <body> <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    <!-- Templates -->
-    <script id="template-columns" type="text/x-handlebars-template">
-      {{#each this}}
+    <![endif]--> <!-- Templates --> <script id=template-columns type=text/x-handlebars-template>{{#each this}}
         <li><h4>{{key}}</h4></li>
         <ul>
         {{#each values}}
@@ -38,100 +12,11 @@
           </li>
         {{/each}}
         </ul>
-      {{/each}}
-    </script>
-
-    <script id="template-months" type="text/x-handlebars-template">
-    {{#each this}}
+      {{/each}}</script> <script id=template-months type=text/x-handlebars-template>{{#each this}}
       <option value="{{value}}">{{name}}</option>
-    {{/each}}
-    </script>
-
-
-
-    <div class="container" id="chart-builder">
-      <div class="row">
-        <div class="col-sm-4" id="controls">
-          <form onchange="chartBuilderUpdate()">
-            <div class="group">
-              <h3>Välj serier</h3>
-              <ul id="columns"  class="checkbox"></ul>
-            </div>
-            <div class="group">
-              <h3>Välj månad</h3>
-              <select id="months" class="form-control"></select>
-              <div>
-                <small>
-                  Om du väljer "senaste" kommer grafiken uppdateras med den senaste datan automatiskt när ny data läggs till.
-                </small>
-              </div>
-            </div>
-            <div class="group">
-              <h3>Välj vilka grafer som ska visas</h3>
-              <ul id="charts">
-                <li><label><input value="today" type="checkbox"/ checked> Läget just nu</label></li>
-                <li><label><input value="change" type="checkbox"/ checked> Förändringen sedan i fjol</label></li>
-              </ul>
-            </div>
-            <div class="group">
-              <h3>Hur stora ska graferna vara?</h3>
-              <ul>
-                <li><label>Höjd: <input type="text"/ id="height" value="200"></label></li>
-              </ul>
-            </div>
-          </form>
-        </div>
-        <!-- End of controls -->
-        <div class="col-sm-8" id="preview">
-          <h3>Förhandsvisning</h3>
-          <code id="url"></code>
-          <div id="iframe-parent"></div>
-
-        </div>
-      </div> 
-    </div>
-
-
-
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="_bower_components/modernizr/modernizr.js"></script>
-    <script src="_bower_components/jquery/dist/jquery.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="_bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
-    <script src="_bower_components/d3/d3.js"></script>
-    <script src="_bower_components/c3/c3.js"></script>
-    <script src="_bower_components/handlebars/handlebars.js"></script>
-    <script src="_bower_components/pym.js/src/pym.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
-
-
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+    {{/each}}</script> <div class=container id=chart-builder> <div class=row> <div class=col-sm-4 id=controls> <form onchange=chartBuilderUpdate()> <div class=group> <h3>Välj serier</h3> <ul id=columns class=checkbox></ul> </div> <div class=group> <h3>Välj månad</h3> <select id=months class=form-control></select> <div> <small> Om du väljer "senaste" kommer grafiken uppdateras med den senaste datan automatiskt när ny data läggs till. </small> </div> </div> <div class=group> <h3>Välj vilka grafer som ska visas</h3> <ul id=charts> <li><label><input value=today type=checkbox checked> Läget just nu</label></li> <li><label><input value=change type=checkbox checked> Förändringen sedan i fjol</label></li> </ul> </div> <div class=group> <h3>Hur stora ska graferna vara?</h3> <ul> <li><label>Höjd: <input id=height value=200></label></li> </ul> </div> </form> </div> <!-- End of controls --> <div class=col-sm-8 id=preview> <h3>Förhandsvisning</h3> <code id=url></code> <div id=iframe-parent></div> </div> </div> </div> <script src=scripts/d41d8cd9.vendor.js></script> <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. --> <script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
       e=o.createElement(i);r=o.getElementsByTagName(i)[0];
       e.src='//www.google-analytics.com/analytics.js';
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
-
-        <!-- build:js({app,.tmp}) scripts/main.js -->
-        <script src="scripts/main.js"></script>
-        <script src="scripts/chartbuilder.js"></script>
-        <!-- endbuild -->
-
-</body>
-</html>
+      ga('create','UA-XXXXX-X');ga('send','pageview');</script> <script src=scripts/0c85ccbc.main.js></script>  
