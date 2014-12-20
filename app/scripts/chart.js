@@ -10,14 +10,16 @@ function addUrlParamsToChart() {
 }
 
 //INIT
-// Init pym.js for iframe responsiveness if embeded
-if (self !== top) {
-	var pymChild = new pym.Child();
+function initSingleChart() {
+	// Init pym.js for iframe responsiveness if embeded
+	if (isIframe) {
+		var pymChild = new pym.Child();
+	}
+	// Get data and init chart
+	$.getJSON(dataUrl, function(resp) {
+		dataObj = initData(resp);
+		addUrlParamsToChart();
+		initCharts();
+		if (isIframe) pymChild.sendHeight();
+	});	
 }
-// Get data and init chart
-$.getJSON(dataUrl, function(resp) {
-	dataObj = initData(resp);
-	addUrlParamsToChart();
-	initCharts();
-	pymChild.sendHeight();
-});

@@ -245,6 +245,7 @@ var formatYearMonthDay = locale.timeFormat('%Y-%m-%d');
 // INIT
 var dataObj;
 var charts = {};
+var isIframe = self !== top;
 
 // Get data
 var key = '1I7A8rydoRA6n28W6Tnt6nCpEYeUbI2J1dcVrEy54G7Y';

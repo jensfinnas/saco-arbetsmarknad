@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
+    <!-- build:css(app) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="_bower_components/c3/c3.css" />
     <!-- endbower -->
@@ -29,7 +29,7 @@
     <div id="chart" class="chart"></div>
 
 
-    <!-- build:js(.) scripts/vendor.js -->
+    <!-- build:js(app) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="_bower_components/modernizr/modernizr.js"></script>
     <script src="_bower_components/jquery/dist/jquery.js"></script>
@@ -68,5 +68,9 @@
         <script src="scripts/main.js"></script>
         <script src="scripts/chart.js"></script>
         <!-- endbuild -->
+
+        <script>
+        initSingleChart();
+        </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 // Renders the chart builder interface
-function initChartBuilder() {
+function drawChartBuilderUI() {
 	// Aggegate columns by category
 	var columnContext = d3.nest()
 		.key(function(d) { return d.category})
@@ -59,9 +59,11 @@ function chartBuilderUpdate() {
 	var pymParent = new pym.Parent('iframe-parent', url, {});
 }
 
-$.getJSON(dataUrl, function(resp) {
-	dataObj = initData(resp);
-	initChartBuilder();
-	$("#columns ul").first().find('input').prop('checked', true);
-	chartBuilderUpdate();
-});
+function initChartBuilder() {
+	$.getJSON(dataUrl, function(resp) {
+		dataObj = initData(resp);
+		drawChartBuilderUI();
+		$("#columns ul").first().find('input').prop('checked', true);
+		chartBuilderUpdate();
+	});	
+} 
