@@ -24,20 +24,52 @@ BarChart = (function() {
     self.columns = columns;
 
     // Set defaults
-		self.opts = jQuery.extend({
+		self.opts = $.extend({
       width: 'auto',
       height: 300,
-      charts: ['today', 'change'],
       title: '',
       subtitle: '',
+      sort: false,
+      showChange: false,
       date: self.data[self.data.length - 1]['Månad']
     }, opts);
-    self.id = '#' + id; // The chart element has to have an id
-    self.columnDictionary = dataObj.columns; // An object with column names and properties
-    self.$el = $(self.id); // The element that wraps the chart
-    self.chartContainers = {}; // Store chart containers here (jquery)
+
+    // The chart element has to have an id
+    self.id = '#' + id; 
+
+    // An object with column names and properties
+    self.columnDictionary = dataObj.columns; 
+
+    // The element that wraps the chart
+    self.$el = $(self.id); 
+
+    // Store chart containers here (jquery)
+    self.chartContainers = {}; 
     self.chartContainers.today = self.$el.append($('<div/>').attr('class', 'chart-today'));
-    self.chartContainers.change = self.$el.append($('<div/>').attr('class', 'chart-change'));
+    self.label = {
+    	today: 'Arbetslöshet',
+    	change: 'Förändring'
+    }
+
+    // Add 'show change' button
+    self.$el.append(
+    	$('<button/>')
+    		.text('Visa förändring')
+    		.click(function() {
+    			$(this).text(self.opts.showChange ? 'Visa läget just nu' : 'Visa förändring');
+    			self.update(
+    				self.opts.showChange ? 
+	    			{
+	    				showChange: false
+	    			} 
+	    			:
+	    			{
+	    				showChange: true
+	    			}
+    			);	
+    		})
+    	) 
+
     if (!columns || columns.length == 0) {
     	console.error('Error: Add an array of columns');
     }
@@ -45,46 +77,62 @@ BarChart = (function() {
 
     // Define chart settings that are same for both chart types here
     self.chartSetup = {
-    	size: {},
+    	bindto: self.id + ' .chart-today',
+    	size: {
+    		height: self.opts.height
+    	},
   		data: {
   			x: 'x',
-  			type: 'bar'
+  			groups: [[self.label.today, self.label.change]],
+  			type: 'bar',
+  			color: function(color,d) { 
+					if (d.id == self.label.today) {
+						return color;
+					}
+					else {
+						return d.value > 0 ? 'green' : 'red'; 
+					}
+				}
   		},
   		axis: {
   			x: {
   				type: 'category' // this needed to load string x value
   			},
   			y: {
-  				tick: {}
+  				tick: {
+  					format: function(d) { return formatPercent(d / 100); }
+  				}
   			}
-      }
+      },
+      grid: {
+  			y: {
+  				lines: [ { value: 0, text: '' } ]
+  			}
+  		}
   	}
 
   	// Draw the charts listed in charts array
-  	if ($.inArray('today', opts.charts) > -1) {
-	    self.drawTodayChart();
-  	}
-  	if ($.inArray('change', opts.charts) > -1) {
-	    self.drawChangeChart();
-  	}
+  	self.drawTodayChart();
 	}
 
+	// Draw chart
 	BarChart.prototype.drawTodayChart = function() {
 		var self = this;
 		var chartOpts = self.chartSetup;
-		chartOpts.size.height = self.opts.height;
-		chartOpts.bindto = self.id + ' .chart-today';
 		chartOpts.data.columns = self.getValues();
-		chartOpts.axis.y.tick.format = function(d) { return formatPercent(d / 100); };
 		self.charts.today = c3.generate(chartOpts);
 	}
-	BarChart.prototype.drawChangeChart = function() {
+/*	BarChart.prototype.drawChangeChart = function() {
 		var self = this;
 		var chartOpts = self.chartSetup;
 		chartOpts.size.height = self.opts.height * .7;
 		chartOpts.bindto = self.id + ' .chart-change';
+		chartOpts.data.groups = [[self.label.today, self.label.change]];
 		// Get data
-		chartOpts.data.columns = self.getValues('change');
+		chartOpts.data.columns = self.getValues({
+			showChange: true,
+			sort: 'change'
+		});
 
 		// Set minimum 
 		var minimumRange = 0.05;
@@ -98,7 +146,12 @@ BarChart = (function() {
 		
 		// Set bar color
 		chartOpts.data.color = function(color,d) { 
-			return d.value > 0 ? 'green' : 'red';
+			if (d.id == self.label.today) {
+				return color;
+			}
+			else {
+				return d.value > 0 ? 'green' : 'red'; 
+			}
 		}
 
 		chartOpts.grid = {
@@ -109,9 +162,9 @@ BarChart = (function() {
 		self.charts.change = c3.generate(chartOpts);
 
 		
-	}
+	}*/
 
-	BarChart.prototype.getValues = function(type) {
+	BarChart.prototype.getValues = function() {
 		var self = this;
 
 		// Get the right month row from data
@@ -124,32 +177,63 @@ BarChart = (function() {
 
 		// Get last years numbers when we are displaying change
 		var rowLastYear;
-		if (type == 'change') {
-			var dateLastYear = self.opts.date.sameMonthLastYear();
+		var dateLastYear = self.opts.date.sameMonthLastYear();
 			rowLastYear = self.data.first(function(d) {
 				return sameYearAndMonth(d['Månad'], dateLastYear);
 			});
-		}
 
 		// Filter the selected row to an array of values 
-		var values = ['Arbetslöshet'];
-		var columnNames = ['x'];
+		var values = []; 
 		self.columns.forEach(function(column) {
 			try {
-				if (type == 'change') {
-					// Compare unemployment now with same month last year
-					values.push(row[column] - rowLastYear[column]);
-				}
-				else {
-					values.push(row[column]);	
-				}	
-				columnNames.push(self.columnDictionary[column].name_short);
+				values.push({
+					name: self.columnDictionary[column].name_short,
+					today: row[column],
+					change: row[column] - rowLastYear[column]
+				});
 			}
 			catch(err) {
 				console.error('Invalid column (' + column +' )', err);
 			}
 		});
-		return [columnNames, values];
+		if (self.opts.sort) {
+			try {
+				values.sort(function(a, b){ return d3.ascending(a[self.opts.sort], b[self.opts.sort]); });
+			}
+			catch(err) {
+				console.error('Invalid sort key.', err);
+			}
+		}
+		values.unshift({
+			name: 'x',
+			today: self.label.today,
+			change: self.label.change
+		}); 
+
+		var resp = [
+			values.map(function(d) { return d.name; }),
+			values.map(function(d) { return d.today; })
+		];
+		if (self.opts.showChange) {
+			resp.push(values.map(function(d) { return d.change; }))
+		};
+		return resp;
+	}
+
+	BarChart.prototype.update = function(updatedOpts) {
+		var self = this;
+		$.extend(self.opts, updatedOpts);
+
+		// Load new values
+		self.charts.today
+			.load({
+				columns: self.getValues()
+			});
+
+		// Remove change 
+		if (!self.opts.showChange) {
+			self.charts.today.unload([self.label.change]);
+		}
 	}
 	return BarChart;
 })();
