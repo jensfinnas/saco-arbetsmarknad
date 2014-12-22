@@ -4,8 +4,9 @@ function addUrlParamsToChart() {
 	$('#chart').attr({
 		'data-columns': getQueryString('columns'),
 		'data-month': getQueryString('month'),
-		'data-charts': getQueryString('charts'),
-		'data-height': getQueryString('height')
+		'data-height': getQueryString('height'),
+		'data-show-change': getQueryString('showChange'),
+		'data-sort': getQueryString('sort')
 	})
 }
 

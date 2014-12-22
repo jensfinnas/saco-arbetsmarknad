@@ -81,22 +81,28 @@ BarChart = (function() {
     	size: {
     		height: self.opts.height
     	},
+    	padding: {
+    		//bottom: self.opts.height * .1
+    	},
   		data: {
   			x: 'x',
   			groups: [[self.label.today, self.label.change]],
   			type: 'bar',
   			color: function(color,d) { 
-					if (d.id == self.label.today) {
-						return color;
+					if (d.id == self.label.change) {
+						return d.value > 0 ? 'green' : 'red'; 
 					}
 					else {
-						return d.value > 0 ? 'green' : 'red'; 
+						return color;
 					}
 				}
   		},
   		axis: {
   			x: {
-  				type: 'category' // this needed to load string x value
+  				type: 'category', // this needed to load string x value
+  				tick: {
+  					outer: true
+  				}
   			},
   			y: {
   				tick: {
@@ -108,7 +114,13 @@ BarChart = (function() {
   			y: {
   				lines: [ { value: 0, text: '' } ]
   			}
-  		}
+  		},
+  		legend: {
+        position: 'inset',
+        inset: {
+        	anchor: 'top-right'
+        }
+    	}
   	}
 
   	// Draw the charts listed in charts array
@@ -122,48 +134,9 @@ BarChart = (function() {
 		chartOpts.data.columns = self.getValues();
 		self.charts.today = c3.generate(chartOpts);
 	}
-/*	BarChart.prototype.drawChangeChart = function() {
-		var self = this;
-		var chartOpts = self.chartSetup;
-		chartOpts.size.height = self.opts.height * .7;
-		chartOpts.bindto = self.id + ' .chart-change';
-		chartOpts.data.groups = [[self.label.today, self.label.change]];
-		// Get data
-		chartOpts.data.columns = self.getValues({
-			showChange: true,
-			sort: 'change'
-		});
 
-		// Set minimum 
-		var minimumRange = 0.05;
-		var arr = chartOpts.data.columns[1].slice(0);
-		arr.shift();
-		chartOpts.axis.y.min = Math.min(-minimumRange, d3.min(arr));
-		chartOpts.axis.y.max = Math.max(minimumRange, d3.max(arr));
-		
-		// Set y axis format
-		chartOpts.axis.y.tick.format = function(d) { return formatPercentSmall(d / 100) };
-		
-		// Set bar color
-		chartOpts.data.color = function(color,d) { 
-			if (d.id == self.label.today) {
-				return color;
-			}
-			else {
-				return d.value > 0 ? 'green' : 'red'; 
-			}
-		}
-
-		chartOpts.grid = {
-			y: {
-				lines: [ { value: 0, text: '' } ]
-			}
-		}
-		self.charts.change = c3.generate(chartOpts);
-
-		
-	}*/
-
+	// Returns value arrays for the chart based on the current
+	// selection and sort.
 	BarChart.prototype.getValues = function() {
 		var self = this;
 
@@ -251,7 +224,10 @@ function initCharts() {
 			opts.date = parseDate($el.attr('data-month'));
 		};
 		if ($el.hasAttr('data-width')) opts.width = $el.attr('data-width');
-		if ($el.hasAttr('data-height')) opts.width = $el.attr('data-height');
+		if ($el.hasAttr('data-height')) opts.height = $el.attr('data-height');
+		if ($el.hasAttr('data-show-change')) opts.showChange = $el.attr('data-show-change') == 'true';
+		if ($el.hasAttr('data-sort')) opts.sort = $el.attr('data-sort');
+		if (opts.sort == 'false') opts.sort = false;
 		charts[id] = new BarChart(id, columns, opts);
 	})
 }

@@ -44,14 +44,15 @@ function chartBuilderUpdate() {
 		.map(function() { return $(this).val(); })
 		.toArray();
 	var month = $('#months').val();
-	var charts = $('#charts :checked')
-		.map(function() { return $(this).val(); })
-		.toArray();
+	var sort = $('input[name=sort]:checked').val();
+	var showChange = $('input[name=showChange]:checked').val();
+
 	var height = $('#height').val();
 	var url = window.location.href + 'chart.html' + 
 		'?columns=' + columns.join(',') +
 		'&month=' + month + 
-		'&charts=' + charts.join(',') + 
+		'&sort=' + sort +
+		'&showChange=' + showChange +
 		'&height=' + height;
 
 	$('#url').text(url);
