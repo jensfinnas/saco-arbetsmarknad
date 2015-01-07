@@ -48,7 +48,7 @@ function chartBuilderUpdate() {
 	var showChange = $('input[name=showChange]:checked').val();
 
 	var height = $('#height').val();
-	var url = window.location.href.replace('index.html','') + 'chart.html' + 
+	var url = window.location.href.replace('chartbuilder.html','') + 'chart.html' + 
 		'?columns=' + columns.join(',') +
 		'&month=' + month + 
 		'&sort=' + sort +

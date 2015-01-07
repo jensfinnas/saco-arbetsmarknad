@@ -1,17 +1,23 @@
 // Prepares json data from server
 function initData(resp) {
 	// Turn strings into numbers in dataset
-	resp.data = resp.data.map(function(row) {
+	resp.data = resp.data
+	.map(function(row) {
 		for (key in row) {
 			if (key == "Månad") {
 				row[key] = parseDate(row[key]);
 			}
 			else {
-				row[key] = +row[key];
+				row[key] = row[key] / 100;
 			}
 		}
 		return row;
+	})
+	// Sort so that latest value is last in array
+	.sort(function(a, b){ 
+		return d3.ascending(a['Månad'], b['Månad']); 
 	});
+
 	return resp;
 }
 
@@ -27,12 +33,14 @@ BarChart = (function() {
 		self.opts = $.extend({
       width: 'auto',
       height: 300,
-      title: '',
-      subtitle: '',
+      title: false,
+      subtitle: false,
       sort: false,
       showChange: false,
       date: self.data[self.data.length - 1]['Månad']
     }, opts);
+
+    self.subtitles = dynamicSubtitles;
 
     // The chart element has to have an id
     self.id = '#' + id; 
@@ -42,6 +50,25 @@ BarChart = (function() {
 
     // The element that wraps the chart
     self.$el = $(self.id); 
+
+    // Add title
+    if (self.opts.title) {
+    	self.$el.append($('<h3/>')
+    		.attr('class', 'title')
+    		.text(self.opts.title)
+    	);
+    }
+
+    // Add subtitle
+    if (self.opts.subtitle) {
+    	if (self.opts.subtitle in self.subtitles) {
+    		self.opts.subtitle = self.subtitles[self.opts.subtitle]()
+    	}
+    	self.$el.append($('<div/>')
+    		.attr('class', 'subtitle')
+    		.html(self.opts.subtitle)
+    	);
+    }
 
     // Store chart containers here (jquery)
     self.chartContainers = {}; 
@@ -106,7 +133,7 @@ BarChart = (function() {
   			},
   			y: {
   				tick: {
-  					format: function(d) { return formatPercent(d / 100); }
+  					format: function(d) { return formatPercent(d); }
   				}
   			}
       },
@@ -216,8 +243,12 @@ BarChart = (function() {
 function initCharts() {
 	$('.chart').each(function() {
 		var $el = $(this);
+
+		// Mandatory settings
 		var id = $el.attr('id');
 		var columns = $el.attr('data-columns').split(',');
+		
+		// Optional settings
 		var opts = {};
 		if ($el.hasAttr('data-charts')) opts.charts = $el.attr('data-charts').split(',');
 		if ($el.hasAttr('data-month') && $el.attr('data-month') !== 'latest') {
@@ -228,6 +259,9 @@ function initCharts() {
 		if ($el.hasAttr('data-show-change')) opts.showChange = $el.attr('data-show-change') == 'true';
 		if ($el.hasAttr('data-sort')) opts.sort = $el.attr('data-sort');
 		if (opts.sort == 'false') opts.sort = false;
+		if ($el.hasAttr('data-subtitle')) opts.subtitle = $el.attr('data-subtitle');
+
+		// Init chart
 		charts[id] = new BarChart(id, columns, opts);
 	})
 }
@@ -296,11 +330,37 @@ function sameYearAndMonth(d1, d2) {
 	);
 };
 
+// Handlebars helpers
+Handlebars.registerHelper('columnName', function(key) {
+  return dataObj.columns[key].name;
+});
+
+Handlebars.registerHelper('formatPercent', function(value) {
+  return formatPercent(value);
+});
+
 // Formating
 var formatPercent = locale.numberFormat('.1%');
 var formatPercentSmall = locale.numberFormat('.2%');
 var formatMonthYear = locale.timeFormat('%B %Y');
 var formatYearMonthDay = locale.timeFormat('%Y-%m-%d');
+
+// Dynamic subtitles
+dynamicSubtitles = {
+	'Utbildning': function() {
+		return 'Här kommer en autogeneread text som beskriver vad grafen visar. Typ säga vilka som ökat mest.'	
+	},
+	'Kön': function() {
+		return 'Här kommer en autogeneread text som beskriver vad grafen visar. Typ säga vilka som ökat mest.'	
+	},
+	'Ålder': function() {
+		return 'Här kommer en autogeneread text som beskriver vad grafen visar. Typ säga vilka som ökat mest.'	
+	},
+	'Födelseplats': function() {
+		return 'Här kommer en autogeneread text som beskriver vad grafen visar. Typ säga vilka som ökat mest.'	
+	}
+
+}
 
 // INIT
 var dataObj;
