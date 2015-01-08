@@ -61,12 +61,8 @@ BarChart = (function() {
 
     // Add subtitle
     if (self.opts.subtitle) {
-    	if (self.opts.subtitle in self.subtitles) {
-    		self.opts.subtitle = self.subtitles[self.opts.subtitle]()
-    	}
     	self.$el.append($('<div/>')
     		.attr('class', 'subtitle')
-    		.html(self.opts.subtitle)
     	);
     }
 
@@ -83,7 +79,7 @@ BarChart = (function() {
     	$('<button/>')
     		.text('Visa förändring')
     		.click(function() {
-    			$(this).text(self.opts.showChange ? 'Visa läget just nu' : 'Visa förändring');
+    			$(this).text(self.opts.showChange ? 'Visa förändring' : 'Visa läget just nu');
     			self.update(
     				self.opts.showChange ? 
 	    			{
@@ -152,6 +148,14 @@ BarChart = (function() {
 
   	// Draw the charts listed in charts array
   	self.drawTodayChart();
+
+  	// Update subtitle
+  	if (self.opts.subtitle in self.subtitles) {
+  		self.opts.subtitle = self.subtitles[self.opts.subtitle](self.values);
+  	}
+
+  	self.$el.find('.subtitle').html(self.opts.subtitle);
+
 	}
 
 	// Draw chart
@@ -188,6 +192,7 @@ BarChart = (function() {
 			try {
 				values.push({
 					name: self.columnDictionary[column].name_short,
+					nameFull: self.columnDictionary[column].name,
 					today: row[column],
 					change: row[column] - rowLastYear[column]
 				});
@@ -204,6 +209,9 @@ BarChart = (function() {
 				console.error('Invalid sort key.', err);
 			}
 		}
+		// Store values to be used when we write dynamic subtitles
+		self.values = values.slice(0);
+
 		values.unshift({
 			name: 'x',
 			today: self.label.today,
@@ -344,23 +352,6 @@ var formatPercent = locale.numberFormat('.1%');
 var formatPercentSmall = locale.numberFormat('.2%');
 var formatMonthYear = locale.timeFormat('%B %Y');
 var formatYearMonthDay = locale.timeFormat('%Y-%m-%d');
-
-// Dynamic subtitles
-dynamicSubtitles = {
-	'Utbildning': function() {
-		return 'Här kommer en autogeneread text som beskriver vad grafen visar. Typ säga vilka som ökat mest.'	
-	},
-	'Kön': function() {
-		return 'Här kommer en autogeneread text som beskriver vad grafen visar. Typ säga vilka som ökat mest.'	
-	},
-	'Ålder': function() {
-		return 'Här kommer en autogeneread text som beskriver vad grafen visar. Typ säga vilka som ökat mest.'	
-	},
-	'Födelseplats': function() {
-		return 'Här kommer en autogeneread text som beskriver vad grafen visar. Typ säga vilka som ökat mest.'	
-	}
-
-}
 
 // INIT
 var dataObj;
