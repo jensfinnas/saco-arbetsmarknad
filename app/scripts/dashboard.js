@@ -28,8 +28,12 @@ function getListData() {
 			lowest: today.slice(0).sort(function(a, b){ return d3.ascending(a.value, b.value); })
 		},
 		change: {
-			highest: change.sort(function(a, b){ return d3.descending(a.value, b.value); }),
-			lowest: change.slice(0).sort(function(a, b){ return d3.ascending(a.value, b.value); })
+			highest: change
+				.sort(function(a, b){ return d3.descending(a.value, b.value); })				
+				.filter(function(d) { return d.value > 0; }),
+			lowest: change.slice(0)
+				.sort(function(a, b){ return d3.ascending(a.value, b.value); })
+				.filter(function(d) { return d.value < 0; })
 		}
 	}
 }
@@ -39,9 +43,10 @@ function initDashboardLists(listData) {
 		var $el = $(this);
 		var end = $el.attr('data-end');
 		var value = $el.attr('data-value');
+		var title = $el.attr('data-title');
 
 		$el.html( tt( {
-			title: value + ": " + end,
+			title: title,
 			items: listData[value][end].slice(0,5)
 		}) );
 	})
