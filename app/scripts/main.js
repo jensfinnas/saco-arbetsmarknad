@@ -99,6 +99,10 @@ BarChart = (function() {
     self.charts = {}; // Store C3 chart obj here
 
     // Define chart settings that are same for both chart types here
+    var colors = {};
+    colors[self.label.today] = '#3F98A6'; 
+    colors[self.label.change] = '#E38733'; 
+
     self.chartSetup = {
     	bindto: self.id + ' .chart-today',
     	size: {
@@ -111,20 +115,14 @@ BarChart = (function() {
   			x: 'x',
   			groups: [[self.label.today, self.label.change]],
   			type: 'bar',
-  			color: function(color,d) { 
-					if (d.id == self.label.change) {
-						return d.value > 0 ? 'green' : 'red'; 
-					}
-					else {
-						return color;
-					}
-				}
+  			colors: colors
   		},
   		axis: {
   			x: {
   				type: 'category', // this needed to load string x value
+  				height: 50,
   				tick: {
-  					outer: true
+  					outer: false
   				}
   			},
   			y: {
@@ -161,8 +159,10 @@ BarChart = (function() {
 	// Draw chart
 	BarChart.prototype.drawTodayChart = function() {
 		var self = this;
+		var values = self.getValues();
 		var chartOpts = self.chartSetup;
-		chartOpts.data.columns = self.getValues();
+		chartOpts.axis.rotated = values[0].length > 6;
+		chartOpts.data.columns = values;
 		self.charts.today = c3.generate(chartOpts);
 	}
 

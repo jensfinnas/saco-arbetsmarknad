@@ -44,10 +44,12 @@ function initDashboardLists(listData) {
 		var end = $el.attr('data-end');
 		var value = $el.attr('data-value');
 		var title = $el.attr('data-title');
+		var emptyMessage = $el.attr('data-empty-message');
 
 		$el.html( tt( {
 			title: title,
-			items: listData[value][end].slice(0,5)
+			items: listData[value][end].slice(0,5),
+			emptyMessage: emptyMessage
 		}) );
 	})
 	

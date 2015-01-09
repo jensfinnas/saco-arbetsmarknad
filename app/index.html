@@ -27,15 +27,20 @@
 
     <!-- Templates -->
     <script id="template-list" type="text/x-handlebars-template">
+    
     <h3>{{ title }}</h3>
-    <table>
-    {{#each items}}
-      <tr>
-        <td>{{ columnName key }}</td>
-        <td>{{ formatPercent value }}</td>
-      </tr>
-    {{/each}}
-    </table>
+    {{#if items.length}}
+      <table>
+      {{#each items}}
+        <tr>
+          <td>{{ columnName key }}</td>
+          <td>{{ formatPercent value }}</td>
+        </tr>
+      {{/each}}
+      </table>
+    {{else}}
+      <div>{{ emptyMessage }}</div>
+    {{/if}}
     </script>
 
     <div id="lists">
@@ -56,12 +61,14 @@
         data-end="highest"
         data-value="change"
         data-title="Här ökar arbetslösheten mest"
+        data-empty-message="Det finns inga grupper där arbetslösheten har ökat jämfört med för ett år sedan."
       ></div>
       
       <div id="lowest-change" class="dashboard-list"
         data-end="lowest"
         data-value="change"
         data-title="Här minskar arbetslösheten mest"
+        data-empty-message="Det finns inga grupper där arbetslösheten har minskat jämfört med för ett år sedan."
       ></div>
     </div>
 
