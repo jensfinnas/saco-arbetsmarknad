@@ -37,6 +37,7 @@ BarChart = (function() {
       subtitle: false,
       sort: false,
       showChange: false,
+      drawMobileVerison: true,
       date: self.data[self.data.length - 1]['Månad']
     }, opts);
 
@@ -73,6 +74,7 @@ BarChart = (function() {
     	today: 'Arbetslöshet',
     	change: 'Förändring'
     }
+    self.mobileChart = self.$el.append($('<div/>').attr('class', 'chart-mobile'));
 
     // Add 'show change' button
     self.$el.append(
@@ -161,9 +163,36 @@ BarChart = (function() {
 		var self = this;
 		var values = self.getValues();
 		var chartOpts = self.chartSetup;
-		chartOpts.axis.rotated = values[0].length > 6;
+		
+		// Rotate chart if there are more than 6 columns
+		if (values[0].length > 6) {
+			chartOpts.axis.rotated = values[0].length;
+			chartOpts.axis.x.height = 200;
+		}
 		chartOpts.data.columns = values;
 		self.charts.today = c3.generate(chartOpts);
+
+		// Draw mobile version table only
+		if (self.opts.drawMobileVerison) {
+			var $table = $('<table/>');
+			var $tableHeader = $('<tr/>');
+			$tableHeader.append($('<th/>').text('Grupp'));
+			$tableHeader.append($('<th/>').text('Arbetslöshet'));
+			$tableHeader.append($('<th/>').text('Förändring'));
+			$table.append($tableHeader);
+
+			for (var i=1; i<values[0].length; i++) {
+				var label = values[0][i];
+				var today = values[1][i];
+				var change = values[2][i];
+				var $tr = $('<tr/>');
+				$tr.append($('<td/>').attr('class', 'group').text(label));
+				$tr.append($('<td/>').attr('class', 'today').text(formatPercent(today)));
+				$tr.append($('<td/>').attr('class', 'change').text(formatPercent(change)));
+				$table.append($tr);
+			}
+			self.mobileChart.append($table);
+		}
 	}
 
 	// Returns value arrays for the chart based on the current
