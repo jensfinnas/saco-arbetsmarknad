@@ -6565,6 +6565,7 @@
             tick.select('text').text(textFormatted).each(function (d) {
                 var box = this.getBoundingClientRect(),
                     text = textFormatted(d),
+                    // Jens: This default value has been changed manually
                     h = box.height * .7,
                     w = text ? (box.width / text.length) : undefined;
                 if (h && w) {
@@ -6621,6 +6622,7 @@
                     }
 
                     if (!maxWidth || maxWidth <= 0) {
+                        // Jens: This default value has been changed manually
                         maxWidth = isVertical ? 140 : params.isCategory ? (Math.ceil(scale1(ticks[1]) - scale1(ticks[0])) - 12) : 110;
                     }
 

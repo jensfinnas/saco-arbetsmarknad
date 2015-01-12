@@ -69,17 +69,17 @@ BarChart = (function() {
 
     // Store chart containers here (jquery)
     self.chartContainers = {}; 
-    self.chartContainers.today = self.$el.append($('<div/>').attr('class', 'chart-today'));
+    self.chartContainers.today = self.$el.append($('<div/>').attr('class', 'chart-today desktop'));
     self.label = {
     	today: 'Arbetslöshet',
     	change: 'Förändring'
     }
-    self.mobileChart = self.$el.append($('<div/>').attr('class', 'chart-mobile'));
 
     // Add 'show change' button
     self.$el.append(
     	$('<button/>')
     		.text('Visa förändring')
+    		.attr('class', 'desktop')
     		.click(function() {
     			$(this).text(self.opts.showChange ? 'Visa förändring' : 'Visa läget just nu');
     			self.update(
@@ -93,7 +93,11 @@ BarChart = (function() {
 	    			}
     			);	
     		})
-    	) 
+    	)
+
+    // Add container for mobile version (plain table)
+    self.$el.append($('<div/>').attr('class', 'chart-mobile'));
+ 
 
     if (!columns || columns.length == 0) {
     	console.error('Error: Add an array of columns');
@@ -191,7 +195,7 @@ BarChart = (function() {
 				$tr.append($('<td/>').attr('class', 'change').text(formatPercent(change)));
 				$table.append($tr);
 			}
-			self.mobileChart.append($table);
+			self.$el.find('.chart-mobile').append($table);
 		}
 	}
 
