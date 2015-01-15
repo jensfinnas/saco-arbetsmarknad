@@ -3,13 +3,28 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "../_bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+// GENERAL
+h3 {
+  font-size: 20pt; 
+}
+// Hide all elements classed desktop in mobile
+.desktop {
+  display: none;
+}
+
 // CHART BUILDER
-#chart-builder {
+#chartbuilder {
 
   // The left side column 
   #controls {
-    height: 400px;
+    position: absolute;
     overflow-y: scroll;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    padding: 0 20px;
+    background-color: #E6E6E6;
+
     .group {
       ul {
         h4 {
@@ -25,8 +40,142 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
   }
 
   #preview {
+    margin-left: 300px;
+    padding: 0 20px;
+
     iframe {
       width: 100%;
+      max-width: 600px;
     }
   }
+}
+
+// Align numbers right
+.number {
+  text-align: right;
+}
+
+// DASHBOARD
+#dashboard {
+  #lists {
+    .list-row {
+      clear: both;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+  }
+  
+
+  // Tab buttons
+  .tabpanel {
+    clear: both;
+
+    .nav-tabs>li.active>a, 
+    .nav-tabs>li.active>a:focus,
+    .nav-tabs>li.active>a:hover {
+
+      background-color: #f1f0ef;
+      border: 1px solid #ddd;
+      border-bottom-color: transparent;
+      cursor: default;
+      font-size: 10pt;
+
+    }
+
+    .nav-tabs>li>a {  
+      margin-right: 2px;
+      line-height: 1.42857;
+      border: 1px solid transparent;
+      border-radius: 4px 4px 0 0;
+      font-size: 10pt;
+
+    }
+  }
+  // The content of the tabs
+  .tab-content {
+    background-color: #f1f0ef; 
+  }
+
+}
+
+
+
+// MOBILE CHART (a basic table)
+.chart-mobile {
+  padding: 3%;
+  background-color: #f1f0ef; 
+  letter-spacing: 3%;
+}
+
+// CHART
+.chart {
+
+  .subtitle {
+    padding: 3%;
+    background-color: #f1f0ef; 
+  }
+
+  button {
+    background-color: #3f3f40;
+    border-radius: 5px;
+    color: white;
+    border-width: 0px;
+    font-size: 9pt;
+    margin: 2%
+  }
+
+  .c3-legend-background {
+    opacity: .75;
+    fill: #fff;
+    stroke: #d3d3d3;
+    stroke-width: 1;
+    border-radius: 9px;
+    padding-bottom: 40px;
+  }
+
+  .th {
+    border: solid;
+    color: black;
+  }
+
+  .c3-axis {
+    path, line {
+      opacity: 0;
+    }
+  }
+  .c3-grid {
+    line {
+      opacity: 0;
+    }
+    .c3-xgrid-focus line {
+      opacity: 1;
+    } 
+  }
+}
+
+
+// STYLES FOR DESKTOP
+@media screen and (min-width: 400px) {
+  .desktop {
+    display: block;
+  }
+  .chart-mobile {
+    display: none;
+  }
+  
+  // Dashboard
+  #lists {
+    .dashboard-list {
+      float: left;
+      display: inline-block;
+      width: 44%;
+      margin: 3%;
+
+      table {
+        width: 100%;
+      }
+    }
+  } 
 }

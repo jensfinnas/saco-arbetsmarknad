@@ -1,3 +1,9 @@
+/*
+Override the c3_axis functions in order to redefine the deafult values for the 
+tick labels.
+Find 'OVERRIDE' to see where.
+*/
+
 var c3_chart_internal_fn = window.c3.chart.internal.fn;
 
 function c3_axis_custom(d3, params) {
@@ -59,7 +65,7 @@ function c3_axis_custom(d3, params) {
         tick.select('text').text(textFormatted).each(function (d) {
             var box = this.getBoundingClientRect(),
                 text = textFormatted(d),
-                // Jens: This default value has been changed manually
+                // OVERRIDE: This default value has been changed manually
                 h = box.height * 0.7,
                 w = text ? (box.width / text.length) : undefined;
             if (h && w) {
@@ -116,7 +122,7 @@ function c3_axis_custom(d3, params) {
                 }
 
                 if (!maxWidth || maxWidth <= 0) {
-                    // Jens: This default value has been changed manually
+                    // OVERRIDE: This default value has been changed manually
                     maxWidth = isVertical ? 130 : params.isCategory ? (Math.ceil(scale1(ticks[1]) - scale1(ticks[0])) - 12) : 110;
                 }
 

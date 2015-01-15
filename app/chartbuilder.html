@@ -20,7 +20,7 @@
     <!-- endbuild -->
 
   </head>
-  <body>
+  <body id="chartbuilder">
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -49,56 +49,54 @@
 
 
 
-    <div class="container" id="chart-builder">
-      <div class="row">
-        <div class="col-sm-4" id="controls">
-          <form onchange="chartBuilderUpdate()">
-            <div class="group">
-              <h3>Välj serier</h3>
-              <ul id="columns"  class="checkbox"></ul>
-            </div>
-            <div class="group">
-              <h3>Välj månad</h3>
-              <select id="months" class="form-control"></select>
-              <div>
-                <small>
-                  Om du väljer "senaste" kommer grafiken uppdateras med den senaste datan automatiskt när ny data läggs till.
-                </small>
-              </div>
-            </div>
-            <div class="group">
-              <h3>Välj vilken vy som ska visas först</h3>
-              <ul id="charts">
-                <li><label><input value="false" type="radio" name="showChange" checked> Läget just nu</label></li>
-                <li><label><input value="true" type="radio" name="showChange" checked> Läget just nu + förändring</label></li>
-              </ul>
-            </div>
-            <div class="group">
-              <h3>Välj sortering</h3>
-              <ul id="charts">
-                <li><label><input value="false" type="radio"/ name="sort" checked> Ingen</label></li>
-                <li><label><input value="name" type="radio"/ name="sort"> Namn</label></li>
-                <li><label><input value="today" type="radio"/ name="sort"> Arbetslöshet i dag</label></li>
-                <li><label><input value="change" type="radio"/ name="sort"> Förändring jämfört med i fjol</label></li>
-              </ul>
-            </div>
-            <div class="group">
-              <h3>Hur stora ska graferna vara?</h3>
-              <ul>
-                <li><label>Höjd: <input type="text"/ id="height" value="200"></label></li>
-              </ul>
-            </div>
-          </form>
-        </div>
-        <!-- End of controls -->
-        <div class="col-sm-8" id="preview">
-          <h3>Förhandsvisning</h3>
-          <code id="url"></code>
-          <div id="iframe-parent"></div>
-
-        </div>
-      </div> 
+<div class="" id="controls">
+  <form onchange="chartBuilderUpdate()">
+    <div class="group">
+      <h3>Välj serier</h3>
+      <ul id="columns"  class="checkbox"></ul>
     </div>
+    <div class="group">
+      <h3>Välj månad</h3>
+      <select id="months" class="form-control"></select>
+      <div>
+        <small>
+          Om du väljer "senaste" kommer grafiken uppdateras med den senaste datan automatiskt när ny data läggs till.
+        </small>
+      </div>
+    </div>
+    <!--
+    <div class="group">
+      <h3>Välj vilken vy som ska visas först</h3>
+      <ul id="charts">
+        <li><label><input value="false" type="radio" name="showChange" checked> Läget just nu</label></li>
+        <li><label><input value="true" type="radio" name="showChange" checked> Läget just nu + förändring</label></li>
+      </ul>
+    </div>-->
+    <div class="group">
+      <h3>Välj sortering</h3>
+      <ul id="charts">
+        <li><label><input value="false" type="radio"/ name="sort" checked> Ingen</label></li>
+        <li><label><input value="name" type="radio"/ name="sort"> Namn</label></li>
+        <li><label><input value="today" type="radio"/ name="sort"> Arbetslöshet i dag</label></li>
+        <li><label><input value="change" type="radio"/ name="sort"> Förändring jämfört med i fjol</label></li>
+      </ul>
+    </div>
+    <div class="group">
+      <h3>Hur stora ska graferna vara?</h3>
+      <ul>
+        <li><label>Höjd: <input type="text"/ id="height" value="200"></label></li>
+      </ul>
+    </div>
+  </form>
+</div>
+<!-- End of controls -->
+<div class="" id="preview">
+  <h3>Förhandsvisning</h3>
+  <code id="url"></code>
+  <div id="iframe-parent"></div>
+
+</div>
+
 
 
 
@@ -132,6 +130,7 @@
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/c3.override.js"></script>
         <script src="scripts/main.js"></script>
+        <script src="scripts/subtitles.js"></script>
         <script src="scripts/chartbuilder.js"></script>
         <script src="scripts/chart.js"></script>
         <!-- endbuild -->

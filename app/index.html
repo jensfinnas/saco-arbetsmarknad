@@ -14,6 +14,7 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/saco.css">
     <!-- endbuild -->
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="bower_components/modernizr/modernizr.js"></script>
@@ -30,11 +31,11 @@
     
     <h3>{{ title }}</h3>
     {{#if items.length}}
-      <table>
+      <table class="table">
       {{#each items}}
         <tr>
           <td>{{ columnName key }}</td>
-          <td>{{ formatPercent value }}</td>
+          <td class="number">{{ formatPercent value }}</td>
         </tr>
       {{/each}}
       </table>
@@ -44,35 +45,38 @@
     </script>
 
     <div id="lists">
+      <div class="list-row">
+        <div id="highest-today" class="dashboard-list"
+          data-end="highest"
+          data-value="today"
+          data-title="Grupper med högst arbetslöshet"
+        ></div>
+        <div id="lowest-today" class="dashboard-list"
+          data-end="lowest"
+          data-value="today"
+          data-title="Grupper med lägst arbetslöshet"
+        ></div>
+      </div>
 
-      <div id="highest-today" class="dashboard-list"
-        data-end="highest"
-        data-value="today"
-        data-title="Grupper med högst arbetslöshet"
-      ></div>
 
-      <div id="lowest-today" class="dashboard-list"
-        data-end="lowest"
-        data-value="today"
-        data-title="Grupper med lägst arbetslöshet"
-      ></div>
-
-      <div id="highest-change" class="dashboard-list"
-        data-end="highest"
-        data-value="change"
-        data-title="Här ökar arbetslösheten mest"
-        data-empty-message="Det finns inga grupper där arbetslösheten har ökat jämfört med för ett år sedan."
-      ></div>
+      <div class="list-row">
+        <div id="highest-change" class="dashboard-list"
+          data-end="highest"
+          data-value="change"
+          data-title="Här ökar arbetslösheten mest"
+          data-empty-message="Det finns inga grupper där arbetslösheten har ökat jämfört med för ett år sedan."
+        ></div>
       
-      <div id="lowest-change" class="dashboard-list"
-        data-end="lowest"
-        data-value="change"
-        data-title="Här minskar arbetslösheten mest"
-        data-empty-message="Det finns inga grupper där arbetslösheten har minskat jämfört med för ett år sedan."
-      ></div>
+        <div id="lowest-change" class="dashboard-list"
+          data-end="lowest"
+          data-value="change"
+          data-title="Här minskar arbetslösheten mest"
+          data-empty-message="Det finns inga grupper där arbetslösheten har minskat jämfört med för ett år sedan."
+        ></div>
+      </div>
     </div>
 
-    <div role="tabpanel">
+    <div role="tabpanel" class="tabpanel">
 
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">

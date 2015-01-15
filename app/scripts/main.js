@@ -36,7 +36,7 @@ BarChart = (function() {
       title: false,
       subtitle: false,
       sort: false,
-      showChange: false,
+      showChange: true,
       drawMobileVerison: true,
       date: self.data[self.data.length - 1]['Månad']
     }, opts);
@@ -78,20 +78,11 @@ BarChart = (function() {
     // Add 'show change' button
     self.$el.append(
     	$('<button/>')
-    		.text('Visa förändring')
+    		.text(self.opts.showChange ? 'Visa förändring' : 'Dölj förändring')
     		.attr('class', 'desktop')
     		.click(function() {
-    			$(this).text(self.opts.showChange ? 'Visa förändring' : 'Visa läget just nu');
-    			self.update(
-    				self.opts.showChange ? 
-	    			{
-	    				showChange: false
-	    			} 
-	    			:
-	    			{
-	    				showChange: true
-	    			}
-    			);	
+    			$(this).text(self.opts.showChange ? 'Visa förändring' : 'Dölj förändring');
+    			self.update({ showChange: !self.opts.showChange });
     		})
     	)
 
@@ -178,7 +169,7 @@ BarChart = (function() {
 
 		// Draw mobile version table only
 		if (self.opts.drawMobileVerison) {
-			var $table = $('<table/>');
+			var $table = $('<table/>').attr('class','table');
 			var $tableHeader = $('<tr/>');
 			$tableHeader.append($('<th/>').text('Grupp'));
 			$tableHeader.append($('<th/>').text('Arbetslöshet'));
@@ -191,8 +182,8 @@ BarChart = (function() {
 				var change = values[2][i];
 				var $tr = $('<tr/>');
 				$tr.append($('<td/>').attr('class', 'group').text(label));
-				$tr.append($('<td/>').attr('class', 'today').text(formatPercent(today)));
-				$tr.append($('<td/>').attr('class', 'change').text(formatPercent(change)));
+				$tr.append($('<td/>').attr('class', 'today number').text(formatPercent(today)));
+				$tr.append($('<td/>').attr('class', 'change number').text(formatPercent(change)));
 				$table.append($tr);
 			}
 			self.$el.find('.chart-mobile').append($table);
@@ -253,11 +244,10 @@ BarChart = (function() {
 
 		var resp = [
 			values.map(function(d) { return d.name; }),
-			values.map(function(d) { return d.today; })
+			values.map(function(d) { return d.today; }),
+			values.map(function(d) { return d.change; })
 		];
-		if (self.opts.showChange) {
-			resp.push(values.map(function(d) { return d.change; }))
-		};
+
 		return resp;
 	}
 
@@ -297,7 +287,7 @@ function initCharts() {
 		};
 		if ($el.hasAttr('data-width')) opts.width = $el.attr('data-width');
 		if ($el.hasAttr('data-height')) opts.height = $el.attr('data-height');
-		if ($el.hasAttr('data-show-change')) opts.showChange = $el.attr('data-show-change') == 'true';
+		if ($el.hasAttr('data-show-change')) opts.showChange = $el.attr('data-show-change') !== 'false';
 		if ($el.hasAttr('data-sort')) opts.sort = $el.attr('data-sort');
 		if (opts.sort == 'false') opts.sort = false;
 		if ($el.hasAttr('data-subtitle')) opts.subtitle = $el.attr('data-subtitle');
