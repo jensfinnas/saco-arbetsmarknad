@@ -65,6 +65,27 @@ h3 {
     h3 {
       font-size: 20px;
     }
+
+    .extra {
+      display: none;
+    }
+    .btn-fewer {
+      display: none;
+    }
+    .btn-all {
+      display: block;
+    }
+    .show-all {
+      .extra {
+        display: table-row;
+      }
+      .btn-fewer {
+        display: block;
+      }
+      .btn-all {
+        display: none;
+      }
+    }
   }
   
 
@@ -113,7 +134,7 @@ h3 {
 .chart {
 
   .subtitle {
-    padding: 3%;
+    padding: 14px;
     background-color: #f1f0ef; 
   }
 
@@ -122,8 +143,12 @@ h3 {
     border-radius: 5px;
     color: white;
     border-width: 0px;
-    font-size: 9pt;
-    margin: 2%
+    padding: 10px 20px;
+    text-align: center;
+    width: 100%;
+  }
+  button:focus {
+    outline: none;
   }
 
   .c3-legend-background {
@@ -145,12 +170,25 @@ h3 {
       opacity: 0;
     }
   }
+  .c3-axis-x {
+    text {
+      font-size: 15px;
+    }
+  }
+  
+  .rotated {
+    .c3-axis-x {
+      text {
+        font-size: 11px;
+      }
+    }
+  }
   .c3-grid {
     line {
       opacity: 0;
     }
-    .c3-xgrid-focus line {
-      opacity: 1;
+    .c3-xgrid-focus {
+      display: none;
     } 
   }
 }
@@ -164,7 +202,9 @@ h3 {
   .chart-mobile {
     display: none;
   }
-  
+}
+
+@media screen and (min-width: 550px) {
   // Dashboard
   #lists {
     .dashboard-list {
@@ -179,3 +219,4 @@ h3 {
     }
   } 
 }
+  

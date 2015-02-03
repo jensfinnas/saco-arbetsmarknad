@@ -36,7 +36,7 @@ BarChart = (function() {
       title: false,
       subtitle: false,
       sort: false,
-      showChange: true,
+      showChange: false,
       drawMobileVerison: true,
       date: self.data[self.data.length - 1]['Månad']
     }, opts);
@@ -78,11 +78,13 @@ BarChart = (function() {
     // Add 'show change' button
     self.$el.append(
     	$('<button/>')
-    		.text(self.opts.showChange ? 'Visa förändring' : 'Dölj förändring')
+    		.text(self.opts.showChange ? 'Dölj förändring' : 'Visa förändring' )
     		.attr('class', 'desktop')
     		.click(function() {
     			$(this).text(self.opts.showChange ? 'Visa förändring' : 'Dölj förändring');
-    			self.update({ showChange: !self.opts.showChange });
+    			self.opts.showChange = !self.opts.showChange;
+    			self.update();
+    			//self.update({ showChange: !self.opts.showChange });
     		})
     	)
 
@@ -158,14 +160,24 @@ BarChart = (function() {
 		var self = this;
 		var values = self.getValues();
 		var chartOpts = self.chartSetup;
+		var rotated = values[0].length > 6;
 		
 		// Rotate chart if there are more than 6 columns
-		if (values[0].length > 6) {
+		if (rotated) {
 			chartOpts.axis.rotated = values[0].length;
 			chartOpts.axis.x.height = 200;
 		}
 		chartOpts.data.columns = values;
 		self.charts.today = c3.generate(chartOpts);
+
+		// Add custom class to rotated axis for styling
+		if (rotated) {
+			self.chartContainers.today.find('.c3').addClass('rotated');
+		}
+
+		if (!self.opts.showChange) {
+			self.charts.today.unload([self.label.change]);
+		}
 
 		// Draw mobile version table only
 		if (self.opts.drawMobileVerison) {
@@ -251,9 +263,8 @@ BarChart = (function() {
 		return resp;
 	}
 
-	BarChart.prototype.update = function(updatedOpts) {
+	BarChart.prototype.update = function() {
 		var self = this;
-		$.extend(self.opts, updatedOpts);
 
 		// Load new values
 		self.charts.today

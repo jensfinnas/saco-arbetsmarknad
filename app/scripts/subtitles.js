@@ -99,7 +99,7 @@ var dynamicSubtitles = {
 		}
 		return strToday + ' ' + strChange;
 	},
-	'Födelseplats': function(values) {
+	'Födelseregion': function(values) {
 		var swedenBorn = values.filter(function(d) {
 			return d.name == 'Sverige' 
 		})[0];
