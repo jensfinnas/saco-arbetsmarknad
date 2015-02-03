@@ -30,50 +30,24 @@
     
     <h3>{{ title }}</h3>
     {{#if items.length}}
-      <table class="table">
+      <table class="table {{value}}">
       {{#each items}}
         <tr class="{{ getRowClass @index }}">
           <td>{{ formatListName key }}</td>
-          <td class="number">{{ formatPercent value }}</td>
+          <td class="number">{{ formatPercent value ../value }}</td>
         </tr>
       {{/each}}
       </table>
+      <div class="buttons"></div>
+      {{#ifCond value "change"}}
+        <small>Förändringen jämfört med samma tidpunkt förra året.</small>
+      {{/ifCond}}
     {{else}}
       <div>{{ emptyMessage }}</div>
     {{/if}}
     </script>
 
-    <div id="lists">
-      <div class="list-row">
-        <div id="highest-today" class="dashboard-list"
-          data-end="highest"
-          data-value="today"
-          data-title="Grupper med högst arbetslöshet"
-        ></div>
-        <div id="lowest-today" class="dashboard-list"
-          data-end="lowest"
-          data-value="today"
-          data-title="Grupper med lägst arbetslöshet"
-        ></div>
-      </div>
-
-
-      <div class="list-row">
-        <div id="highest-change" class="dashboard-list"
-          data-end="highest"
-          data-value="change"
-          data-title="Här ökar arbetslösheten"
-          data-empty-message="Det finns inga grupper där arbetslösheten har ökat jämfört med för ett år sedan."
-        ></div>
-      
-        <div id="lowest-change" class="dashboard-list"
-          data-end="lowest"
-          data-value="change"
-          data-title="Här minskar arbetslösheten"
-          data-empty-message="Det finns inga grupper där arbetslösheten har minskat jämfört med för ett år sedan."
-        ></div>
-      </div>
-    </div>
+    
 
     <div role="tabpanel" class="tabpanel">
 
@@ -121,6 +95,38 @@
         </div>
       </div>
 
+    </div> <!-- end of tab panel -->
+
+    <div id="lists">
+      <div class="list-row">
+        <div id="highest-today" class="dashboard-list"
+          data-end="highest"
+          data-value="today"
+          data-title="Grupper med högst arbetslöshet"
+        ></div>
+        <div id="lowest-today" class="dashboard-list"
+          data-end="lowest"
+          data-value="today"
+          data-title="Grupper med lägst arbetslöshet"
+        ></div>
+      </div>
+
+
+      <div class="list-row">
+        <div id="highest-change" class="dashboard-list"
+          data-end="highest"
+          data-value="change"
+          data-title="Här ökar arbetslösheten"
+          data-empty-message="Det finns inga grupper där arbetslösheten har ökat jämfört med för ett år sedan."
+        ></div>
+      
+        <div id="lowest-change" class="dashboard-list"
+          data-end="lowest"
+          data-value="change"
+          data-title="Här minskar arbetslösheten"
+          data-empty-message="Det finns inga grupper där arbetslösheten har minskat jämfört med för ett år sedan."
+        ></div>
+      </div>
     </div>
 
 

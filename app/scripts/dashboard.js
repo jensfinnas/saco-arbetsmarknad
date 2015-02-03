@@ -57,11 +57,12 @@ function initDashboardLists(listData) {
 		$el.html( tt( {
 			title: title,
 			items: listData[value][end],
+			value: value,
 			emptyMessage: emptyMessage
 		}));
 
 		if (listData[value][end].length > numberOfListItems) {
-			$el.append(
+			$el.find('.buttons').append(
 				$('<button/>')
 				.text('Visa hela listan')
 				.attr('class', 'btn-all')
@@ -69,7 +70,7 @@ function initDashboardLists(listData) {
 					$(this).parents('.dashboard-list').addClass('show-all');
 				})			
 			);
-			$el.append(
+			$el.find('.buttons').append(
 				$('<button/>')
 				.text('Visa färre')
 				.attr('class', 'btn-fewer')

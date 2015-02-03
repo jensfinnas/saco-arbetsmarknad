@@ -66,7 +66,7 @@ function c3_axis_custom(d3, params) {
             var box = this.getBoundingClientRect(),
                 text = textFormatted(d),
                 // OVERRIDE: This default value has been changed manually
-                h = box.height * 0.7,
+                h = box.height * 1.1,
                 w = text ? (box.width / text.length) : undefined;
             if (h && w) {
                 size.h = h;

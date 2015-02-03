@@ -69,12 +69,22 @@ h3 {
     .extra {
       display: none;
     }
-    .btn-fewer {
-      display: none;
+    // Make space for "procentenheter"
+    .change {
+      .number {
+        min-width: 150px;
+      }
     }
-    .btn-all {
-      display: block;
+    .buttons {
+      margin-bottom: 8px;
+      .btn-fewer {
+        display: none;
+      }
+      .btn-all {
+        display: block;
+      }
     }
+    
     .show-all {
       .extra {
         display: table-row;
@@ -105,13 +115,19 @@ h3 {
 
     }
 
-    .nav-tabs>li>a {  
-      margin-right: 2px;
-      line-height: 1.42857;
-      border: 1px solid transparent;
-      border-radius: 4px 4px 0 0;
-      font-size: 10pt;
-
+    .nav-tabs {
+      text-align: center; 
+      li {
+        display: inline-block;
+        float: none;
+        a {
+          margin-right: 2px;
+          line-height: 1.42857;
+          border: 1px solid transparent;
+          border-radius: 4px 4px 0 0;
+          font-size: 10pt;
+        }
+      }  
     }
   }
   // The content of the tabs
