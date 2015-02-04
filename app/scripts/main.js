@@ -72,7 +72,8 @@ BarChart = (function() {
     self.chartContainers.today = self.$el.append($('<div/>').attr('class', 'chart-today desktop'));
     self.label = {
     	today: 'Arbetslöshet',
-    	change: 'Förändring'
+    	change: 'Förändring',
+    	lastYear: 'Samma tid förra året'
     }
 
     // Add 'show change' button
@@ -112,7 +113,7 @@ BarChart = (function() {
     	},
   		data: {
   			x: 'x',
-  			groups: [[self.label.today, self.label.change]],
+//  			groups: [[self.label.today, self.label.change]],
   			type: 'bar',
   			colors: colors
   		},
@@ -176,7 +177,7 @@ BarChart = (function() {
 		}
 
 		if (!self.opts.showChange) {
-			self.charts.today.unload([self.label.change]);
+			self.charts.today.unload([self.label.lastYear]);
 		}
 
 		// Draw mobile version table only
@@ -230,6 +231,7 @@ BarChart = (function() {
 					name: self.columnDictionary[column].name_short,
 					nameFull: self.columnDictionary[column].name,
 					today: row[column],
+					lastYear: rowLastYear[column],
 					change: row[column] - rowLastYear[column]
 				});
 			}
@@ -251,13 +253,15 @@ BarChart = (function() {
 		values.unshift({
 			name: 'x',
 			today: self.label.today,
-			change: self.label.change
+			lastYear: self.label.lastYear
+			//change: self.label.change
 		}); 
 
 		var resp = [
 			values.map(function(d) { return d.name; }),
 			values.map(function(d) { return d.today; }),
-			values.map(function(d) { return d.change; })
+			values.map(function(d) { return d.lastYear; })
+//			values.map(function(d) { return d.change; })
 		];
 
 		return resp;
@@ -274,7 +278,7 @@ BarChart = (function() {
 
 		// Remove change 
 		if (!self.opts.showChange) {
-			self.charts.today.unload([self.label.change]);
+			self.charts.today.unload([self.label.lastYear]);
 		}
 	}
 	return BarChart;
