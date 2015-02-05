@@ -76,22 +76,36 @@ BarChart = (function() {
     	lastYear: 'Samma tid förra året'
     }
 
-    // Add 'show change' button
-    self.$el.append(
-    	$('<button/>')
-    		.text(self.opts.showChange ? 'Dölj förändring' : 'Visa förändring' )
-    		.attr('class', 'desktop')
-    		.click(function() {
-    			$(this).text(self.opts.showChange ? 'Visa förändring' : 'Dölj förändring');
-    			self.opts.showChange = !self.opts.showChange;
-    			self.update();
-    			//self.update({ showChange: !self.opts.showChange });
-    		})
-    	)
-
     // Add container for mobile version (plain table)
     self.$el.append($('<div/>').attr('class', 'chart-mobile'));
  
+ 		// Add source and time
+ 		var $source = $('<div/>')
+ 				.attr('class', 'source-time');
+ 		$source.append(
+ 			$('<small/>')
+ 				.attr('class', 'time')
+ 				.html("Siffrorna är från " + formatMonthYear(self.opts.date) + ".")
+ 		);
+ 		$source.append(
+ 			$('<small/>')
+ 				.attr('class', 'source')
+ 				.html('Källa: <a href="http://saco.se">Saco</a>')
+ 		);
+ 		self.$el.append($source);
+
+ 		// Add 'show change' button
+ 		self.$el.append(
+ 			$('<button/>')
+ 				.text(self.opts.showChange ? 'Dölj förändring' : 'Visa förändring' )
+ 				.attr('class', 'desktop')
+ 				.click(function() {
+ 					$(this).text(self.opts.showChange ? 'Visa förändring' : 'Dölj förändring');
+ 					self.opts.showChange = !self.opts.showChange;
+ 					self.update();
+ 					//self.update({ showChange: !self.opts.showChange });
+ 				})
+ 			)
 
     if (!columns || columns.length == 0) {
     	console.error('Error: Add an array of columns');

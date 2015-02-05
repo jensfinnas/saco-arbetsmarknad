@@ -207,6 +207,17 @@ h3 {
       display: none;
     } 
   }
+
+  // Source and time
+  .source-time {
+    display: inline-block;
+    float: right;
+
+    .time, .source {
+      display: block;
+      text-align: right;
+    }
+  }
 }
 
 
