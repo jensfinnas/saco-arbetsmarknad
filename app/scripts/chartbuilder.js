@@ -52,7 +52,7 @@ function chartBuilderUpdate() {
 		'?columns=' + columns.join(',') +
 		'&month=' + month + 
 		'&sort=' + sort +
-//		'&showChange=' + showChange +
+		'&showChange=' + showChange +
 		'&height=' + height;
 
 	$('#url').text(url);

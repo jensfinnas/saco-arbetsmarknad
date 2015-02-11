@@ -65,15 +65,19 @@ function initDashboardLists(listData) {
 			$el.find('.buttons').append(
 				$('<button/>')
 				.text('Visa hela listan')
-				.attr('class', 'btn-all')
+				.attr('class', 'btn btn-all')
 				.click(function() {
 					$(this).parents('.dashboard-list').addClass('show-all');
-				})			
+				})
+				.prepend($('<span/>')
+					.attr('class', 'glyphicon glyphicon-th-list')
+					.attr('aria-hidden', 'true')
+				)			
 			);
 			$el.find('.buttons').append(
 				$('<button/>')
 				.text('Visa färre')
-				.attr('class', 'btn-fewer')
+				.attr('class', 'btn btn-fewer')
 				.click(function() {
 					$(this).parents('.dashboard-list').removeClass('show-all');
 				})			

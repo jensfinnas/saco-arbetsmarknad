@@ -71,9 +71,9 @@ BarChart = (function() {
     self.chartContainers = {}; 
     self.chartContainers.today = self.$el.append($('<div/>').attr('class', 'chart-today desktop'));
     self.label = {
-    	today: 'Arbetslöshet',
+    	today: formatMonthYear(self.opts.date).capitalize(),
     	change: 'Förändring',
-    	lastYear: 'Samma tid förra året'
+    	lastYear: formatMonthYear(self.opts.date.sameMonthLastYear()).capitalize()
     }
 
     // Add container for mobile version (plain table)
@@ -90,22 +90,39 @@ BarChart = (function() {
  		$source.append(
  			$('<small/>')
  				.attr('class', 'source')
- 				.html('Källa: <a href="http://saco.se">Saco</a>')
+ 				.html('Källa: Arbetsförmedlingen och SCB/RAMS')
  		);
  		self.$el.append($source);
 
  		// Add 'show change' button
- 		self.$el.append(
+ 		var $viewButtons = $('<div/>').attr('class', 'view-buttons desktop');
+ 		$viewButtons.append(
  			$('<button/>')
- 				.text(self.opts.showChange ? 'Dölj förändring' : 'Visa förändring' )
- 				.attr('class', 'desktop')
+ 				.text('Visa förändring')
+ 				.attr('class', 'btn btn-show-change ' + (self.opts.showChange ? 'active' : ''))
  				.click(function() {
- 					$(this).text(self.opts.showChange ? 'Visa förändring' : 'Dölj förändring');
- 					self.opts.showChange = !self.opts.showChange;
+ 					$(this).addClass('active')
+ 						.siblings('.btn-hide-change')
+ 						.removeClass('active');
+ 					self.opts.showChange = true;
  					self.update();
- 					//self.update({ showChange: !self.opts.showChange });
  				})
  			)
+
+ 		$viewButtons.append(
+ 			$('<button/>')
+ 				.text('Dölj förändring')
+ 				.attr('class', 'btn btn-hide-change ' + (!self.opts.showChange ? 'active' : ''))
+ 				.click(function() {
+ 					$(this).addClass('active')
+ 						.siblings('.btn-show-change')
+ 						.removeClass('active');
+
+ 					self.opts.showChange = false;
+ 					self.update();
+ 				})
+ 			)
+ 		self.$el.append($viewButtons)
 
     if (!columns || columns.length == 0) {
     	console.error('Error: Add an array of columns');
@@ -183,6 +200,11 @@ BarChart = (function() {
 			chartOpts.axis.x.height = 200;
 		}
 		chartOpts.data.columns = values;
+
+		// Set a fixed max value for the y axis so that it won't
+		// change when last years numbers are shown
+		chartOpts.axis.y.max = d3.max(values[1].slice(1, values[1].length).concat( values[1].slice(1, values[2].length) ))
+
 		self.charts.today = c3.generate(chartOpts);
 
 		// Add custom class to rotated axis for styling
@@ -343,6 +365,11 @@ var locale = d3.locale({
 })
 var parseDate = locale.timeFormat("%Y-%m-%d").parse;
 
+// Capitalize strings
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 // Get query string
 function getQueryString(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -423,7 +450,7 @@ var isIframe = self !== top;
 
 // Get data
 var key = '1I7A8rydoRA6n28W6Tnt6nCpEYeUbI2J1dcVrEy54G7Y';
-var mode = 'stage';
+var mode = getQueryString('stage') == 'true' ? 'stage' : 'production';
 var dataUrl = 'https://s3-eu-west-1.amazonaws.com/tabletop-proxy/saco-arbetsmarknad-' + mode + '/' + key + '.json';
 
 
