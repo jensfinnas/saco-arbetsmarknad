@@ -46,6 +46,11 @@ BarChart = (function() {
     // The chart element has to have an id
     self.id = '#' + id; 
 
+    // Get the right row from the data file
+    self.row = self.data.first(function(d) {
+			return sameYearAndMonth(d['Månad'], self.opts.date);
+		});
+
     // An object with column names and properties
     self.columnDictionary = dataObj.columns; 
 
@@ -180,7 +185,10 @@ BarChart = (function() {
 
   	// Update subtitle
   	if (self.opts.subtitle in self.subtitles) {
-  		self.opts.subtitle = self.subtitles[self.opts.subtitle](self.values);
+  		var subtitle = self.subtitles[self.opts.subtitle](self.values);
+  		subtitle += '<br/>Medelarbetslösheten för akademiker är '  + formatPercent(self.row['Samtliga']).replace("%"," procent");
+  		self.opts.subtitle = subtitle;
+  		
   	}
 
   	self.$el.find('.subtitle').html(self.opts.subtitle);
@@ -245,9 +253,8 @@ BarChart = (function() {
 		var self = this;
 
 		// Get the right month row from data
-		var row = self.data.first(function(d) {
-			return sameYearAndMonth(d['Månad'], self.opts.date);
-		});
+		var row = self.row;
+
 		if (row.length == 0) {
 			console.error('Date error');
 		}
