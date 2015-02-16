@@ -3,9 +3,15 @@ $icon-font-path: "../_bower_components/bootstrap-sass-official/assets/fonts/boot
 @import "../_bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+// Typography etc from saco's own css
+@import 'saco';
+
 $color-saco   : rgb(63, 152, 166);
 $color-orange : #DF782C;
 
+.chart text {
+  font-family: "proxima-nova", Arial, sans-serif;
+}
 
 // GENERAL
 h3 {
@@ -168,6 +174,8 @@ a:hover {
   .tab-content {
     padding: 30px;
     background-color: #f1f0ef;
+    border: 1px solid #ddd;
+    border-top: 0;
   }
 
 }
