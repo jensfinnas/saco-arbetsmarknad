@@ -179,7 +179,10 @@
       var listData = getListData();
       initDashboardLists(listData);
       initCharts();
-      if (isIframe) pymChild.sendHeight();
+      if (isIframe) {
+        var pymChild = new pym.Child();
+        pymChild.sendHeight();
+      } 
     }); 
     </script>
 </body>
