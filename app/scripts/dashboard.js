@@ -86,6 +86,12 @@ function initDashboardLists(listData) {
 	})
 }
 
+// Force redraw of chart when tab is clicked to get correct size
+$("#dashboard a[role='tab']").on('shown.bs.tab', function() {
+	var chartId = $(this).attr('aria-controls');
+	charts[chartId + '-chart'].charts.today.flush();
+});
+
 // The string to be rendered in the lists on the dashboard
 // Need to handle exception for education
 Handlebars.registerHelper('formatListName', function(key) {
