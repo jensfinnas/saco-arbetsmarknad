@@ -7,6 +7,9 @@ function initData(resp) {
 			if (key == "Månad") {
 				row[key] = parseDate(row[key]);
 			}
+			else if (resp.columns[key].category == "Antal") {
+				row[key] = + row[key];
+			}
 			else {
 				row[key] = row[key] / 100;
 			}
@@ -82,38 +85,25 @@ BarChart = (function() {
     }
 
     // Add container for mobile version (plain table)
-    self.$el.append($('<div/>').attr('class', 'chart-mobile'));
+    self.$el.append($('<div/>').attr('class', 'data-table'));
  
  		// Add source and time
  		var $source = $('<div/>')
  				.attr('class', 'source-time');
- 		$source.append(
+ 		/*$source.append(
  			$('<small/>')
  				.attr('class', 'time')
  				.html("Siffrorna är från " + formatMonthYear(self.opts.date) + ".")
- 		);
+ 		);*/
  		$source.append(
  			$('<small/>')
  				.attr('class', 'source')
- 				.html('Källa: Arbetsförmedlingen och SCB/RAMS')
+ 				.html('Källor: Arbetsförmedlingen och SCB/RAMS')
  		);
  		self.$el.append($source);
 
  		// Add 'show change' button
  		var $viewButtons = $('<div/>').attr('class', 'view-buttons desktop');
- 		$viewButtons.append(
- 			$('<button/>')
- 				.text('Visa förändring')
- 				.attr('class', 'btn btn-show-change ' + (self.opts.showChange ? 'active' : ''))
- 				.click(function() {
- 					$(this).addClass('active')
- 						.siblings('.btn-hide-change')
- 						.removeClass('active');
- 					self.opts.showChange = true;
- 					self.update();
- 				})
- 			)
-
  		$viewButtons.append(
  			$('<button/>')
  				.text('Dölj förändring')
@@ -124,6 +114,19 @@ BarChart = (function() {
  						.removeClass('active');
 
  					self.opts.showChange = false;
+ 					self.update();
+ 				})
+ 			)
+
+ 		$viewButtons.append(
+ 			$('<button/>')
+ 				.text('Visa förändring')
+ 				.attr('class', 'btn btn-show-change ' + (self.opts.showChange ? 'active' : ''))
+ 				.click(function() {
+ 					$(this).addClass('active')
+ 						.siblings('.btn-hide-change')
+ 						.removeClass('active');
+ 					self.opts.showChange = true;
  					self.update();
  				})
  			)
@@ -186,7 +189,7 @@ BarChart = (function() {
   	// Update subtitle
   	if (self.opts.subtitle in self.subtitles) {
   		var subtitle = self.subtitles[self.opts.subtitle](self.values);
-  		subtitle += '<br/>Medelarbetslösheten för akademiker är '  + formatPercent(self.row['Samtliga']).replace("%"," procent");
+  		subtitle += '<br/>Den öppna arbetslösheten för akademiker är '  + formatPercent(self.row['Samtliga']).replace("%"," procent");
   		self.opts.subtitle = subtitle;
   		
   	}
@@ -229,21 +232,21 @@ BarChart = (function() {
 			var $table = $('<table/>').attr('class','table');
 			var $tableHeader = $('<tr/>');
 			$tableHeader.append($('<th/>').text('Grupp'));
-			$tableHeader.append($('<th/>').text('Arbetslöshet'));
+			$tableHeader.append($('<th/>').html('Arbetslöshet<br/>(' + self.label.today.toLowerCase() + ')'));
 			$tableHeader.append($('<th/>').text('Förändring'));
 			$table.append($tableHeader);
 
 			for (var i=1; i<values[0].length; i++) {
 				var label = values[0][i];
 				var today = values[1][i];
-				var change = values[2][i];
+				var lastYear = values[2][i];
 				var $tr = $('<tr/>');
 				$tr.append($('<td/>').attr('class', 'group').text(label));
 				$tr.append($('<td/>').attr('class', 'today number').text(formatPercent(today)));
-				$tr.append($('<td/>').attr('class', 'change number').text(formatPercent(change)));
+				$tr.append($('<td/>').attr('class', 'change number').text(formatPercent(today - lastYear)));
 				$table.append($tr);
 			}
-			self.$el.find('.chart-mobile').append($table);
+			self.$el.find('.data-table').append($table);
 		}
 	}
 

@@ -1,0 +1,11 @@
+To do:
+- Padding vid mobilvy
+- Tabbar vid mobilvy
+- Fördelseregion: ordning på staplar
+- Byt plats på förändringsknappar
+- Iframe
+- Lyft upp totalen
+- "Visa data"
+- Kolumn med antal
+
+- Verdana som font på värden?

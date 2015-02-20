@@ -20,7 +20,7 @@
     <!-- endbuild -->
 
   </head>
-  <body id="dashboard">
+  <body id="dashboard" class="hidden">
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -48,7 +48,12 @@
     </script>
 
     
-
+    <div id="total-unemployment">
+      <div class="content">
+        <span class="share"></span>
+        av akademikerna är öppet arbetslösa just nu. Det motsvarar <span class="total"></span> personer.
+      </div>    
+    </div>
     <div role="tabpanel" class="tabpanel">
 
       <!-- Nav tabs -->
@@ -87,7 +92,7 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="born">
           <div id="born-chart" class="chart"
-            data-columns="Norden_exkl_Sverige,Sverige,Utanför_Norden"
+            data-columns="Sverige,Norden_exkl_Sverige,Utanför_Norden"
             data-month="latest"
             data-sort="false"
             data-subtitle="Födelseregion"
@@ -128,6 +133,8 @@
         ></div>
       </div>
     </div>
+
+
 
 
     <!-- build:js(app) scripts/vendor.js -->
@@ -182,11 +189,17 @@
     $.getJSON(dataUrl, function(resp) {
       dataObj = initData(resp);
       var listData = getListData();
+      initTotals();
       initDashboardLists(listData);
+      $('body').removeClass('hidden');
       initCharts();
       if (isIframe) {
         var pymChild = new pym.Child();
         pymChild.sendHeight();
+
+        $('.height-change').click(function() {
+          pymChild.sendHeight();
+        })
       } 
     }); 
     </script>

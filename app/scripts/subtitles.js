@@ -27,15 +27,15 @@ var dynamicSubtitles = {
 		var decreaseN = values.filter(function(d) { return d.change < 0 }).length;
 		var increaseShare = increaseN / totalN;
 		var decreaseShare = decreaseShare / totalN;
-		var strToday = 'Arbetslösheten är just nu högst bland akademiker utbildade inom ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer inom ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
+		var strToday = 'Den öppna arbetslösheten är just nu högst bland akademiker utbildade inom ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer inom ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
 		var strChange = 'Jämfört med samma tidpunkt förra året ';
 		if (increaseShare > decreaseShare) {
 			var shareStr = increaseShare == 1 ? 'samtliga' : numberToText[increaseN] + ' av ' + numberToText[totalN]; 
-			strChange += 'ökar inom ' + shareStr + ' utbildningsgrupper.' 
+			strChange += 'ökar arbetslösheten inom ' + shareStr + ' utbildningsgrupper.' 
 		}
 		else {
 			var shareStr = decreaseShare == 0 ? 'samtliga' : numberToText[decreaseN] + ' av ' + numberToText[totalN]; 
-			strChange += 'minskar arbetslöshet inom ' + shareStr + ' utbildningsgrupper.';	
+			strChange += 'minskar arbetslösheten inom ' + shareStr + ' utbildningsgrupper.';	
 		}
 		return strToday + ' ' + strChange;
 	},
@@ -55,13 +55,13 @@ var dynamicSubtitles = {
 
 		var str;
 		if (diff == 0) {
-			str = 'Arbetslösheten är i dag lika hög bland kvinnliga och manliga akademiker. Detta tillhör ovanligheterna. De senaste åren har kvinnors arbetslöshet varit lägre än mäns. '
+			str = 'Den öppna arbetslösheten är i dag lika hög bland män och kvinnor med minst två års eftergymnasial utbildning. Detta tillhör ovanligheterna. De senaste åren har kvinnors arbetslöshet varit lägre än mäns. '
 		}
 		else {
-			str = 'Akademikernas arbetslöshet är ' + diff + ' procentenheter högre bland '+highest.nameFull.toLowerCase() + ' än bland '+ lowest.nameFull.toLowerCase() + '. ';	
+			str = 'Den öppna arbetslöshet bland personer med minst två års eftergymnasial utbildning är ' + diff + ' procentenheter högre bland '+highest.nameFull.toLowerCase() + ' än bland '+ lowest.nameFull.toLowerCase() + '. ';	
 			
 			if (changeMost.nameFull == highest.nameFull) {
-				str += 'Skillnaden har dessutom vuxit ';
+				str += 'Skillnaden har dessutom ökat ';
 			}
 			else {
 				str += 'Skillnaden däremot har minskat ';
@@ -87,7 +87,7 @@ var dynamicSubtitles = {
 		var decreaseN = values.filter(function(d) { return d.change < 0 }).length;
 		var increaseShare = increaseN / totalN;
 		var decreaseShare = decreaseShare / totalN;
-		var strToday = 'Arbetslösheten är just nu högst bland akademiker i åldern ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer i åldern ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
+		var strToday = 'Den öppna arbetslösheten är just nu högst bland akademiker i åldern ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer i åldern ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
 		var strChange = 'Jämfört med samma tidpunkt förra året ';
 		if (increaseShare > decreaseShare) {
 			var shareStr = increaseShare == 1 ? 'samtliga' : numberToText[increaseN] + ' av ' + numberToText[totalN]; 
@@ -95,7 +95,7 @@ var dynamicSubtitles = {
 		}
 		else {
 			var shareStr = decreaseShare == 0 ? 'samtliga' : numberToText[decreaseN] + ' av ' + numberToText[totalN]; 
-			strChange += 'minskar arbetslöshet inom ' + shareStr + ' åldersgrupper.';	
+			strChange += 'minskar arbetslösheten inom ' + shareStr + ' åldersgrupper.';	
 		}
 		return strToday + ' ' + strChange;
 	},

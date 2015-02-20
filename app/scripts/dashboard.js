@@ -13,7 +13,7 @@ function getListData() {
 		var cat = dataObj.columns[key].category;
 		var columnName = dataObj.columns[key].column;
 		// Exclude columns categorized with date and 'Övriga'
-		if (cat !== 'time' && cat !== 'Övriga' && columnName !== 'Övrig_utbildning') {
+		if (cat !== 'time' && cat !== 'Övriga' && cat !== 'Antal' && columnName !== 'Övrig_utbildning') {
 			_change[key] = _today[key] - lastYear[key];
 		}
 		else {
@@ -45,6 +45,12 @@ function getListData() {
 		}
 	}
 }
+function initTotals() {
+	var d = getCurrentUnemployment();
+	var $container = $("#total-unemployment");
+	$container.find('.share').text(formatPercent(d['Samtliga']).replace('%',' procent'));
+	$container.find('.total').text(d['Antal_arbetslosa']);
+}
 function initDashboardLists(listData) {
 	var tt = Handlebars.compile( $("#template-list").html() );
 	$('.dashboard-list').each(function() {
@@ -65,7 +71,7 @@ function initDashboardLists(listData) {
 			$el.find('.buttons').append(
 				$('<button/>')
 				.text('Visa hela listan')
-				.attr('class', 'btn btn-all')
+				.attr('class', 'btn btn-all height-change')
 				.click(function() {
 					$(this).parents('.dashboard-list').addClass('show-all');
 				})
@@ -77,13 +83,16 @@ function initDashboardLists(listData) {
 			$el.find('.buttons').append(
 				$('<button/>')
 				.text('Visa färre')
-				.attr('class', 'btn btn-fewer')
+				.attr('class', 'btn btn-fewer height-change')
 				.click(function() {
 					$(this).parents('.dashboard-list').removeClass('show-all');
 				})			
 			)
 		}
 	})
+}
+function getCurrentUnemployment() {
+	return dataObj.data[dataObj.data.length - 1];
 }
 
 // Force redraw of chart when tab is clicked to get correct size
