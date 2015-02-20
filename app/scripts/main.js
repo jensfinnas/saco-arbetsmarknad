@@ -189,7 +189,6 @@ BarChart = (function() {
   	// Update subtitle
   	if (self.opts.subtitle in self.subtitles) {
   		var subtitle = self.subtitles[self.opts.subtitle](self.values);
-  		subtitle += '<br/>Den öppna arbetslösheten för akademiker är '  + formatPercent(self.row['Samtliga']).replace("%"," procent");
   		self.opts.subtitle = subtitle;
   		
   	}
