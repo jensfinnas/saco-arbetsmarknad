@@ -27,7 +27,7 @@ var dynamicSubtitles = {
 		var decreaseN = values.filter(function(d) { return d.change < 0 }).length;
 		var increaseShare = increaseN / totalN;
 		var decreaseShare = decreaseShare / totalN;
-		var strToday = 'Den öppna arbetslösheten är just nu högst bland akademiker utbildade inom ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer inom ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
+		var strToday = 'Bland personer med minst två åre eftergymnasial utbildning är den öppna arbetslösheten just nu högst bland akademiker utbildade inom ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer inom ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
 		var strChange = 'Jämfört med samma tidpunkt förra året ';
 		if (increaseShare > decreaseShare) {
 			var shareStr = increaseShare == 1 ? 'samtliga' : numberToText[increaseN] + ' av ' + numberToText[totalN]; 
@@ -87,7 +87,7 @@ var dynamicSubtitles = {
 		var decreaseN = values.filter(function(d) { return d.change < 0 }).length;
 		var increaseShare = increaseN / totalN;
 		var decreaseShare = decreaseShare / totalN;
-		var strToday = 'Den öppna arbetslösheten är just nu högst bland akademiker i åldern ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer i åldern ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
+		var strToday = 'Den öppna arbetslösheten för personer med minst två års eftergymnasial utbildning är högst bland i åldern ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer i åldern ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
 		var strChange = 'Jämfört med samma tidpunkt förra året ';
 		if (increaseShare > decreaseShare) {
 			var shareStr = increaseShare == 1 ? 'samtliga' : numberToText[increaseN] + ' av ' + numberToText[totalN]; 
@@ -112,7 +112,7 @@ var dynamicSubtitles = {
 		var diffChangeStr = formatPercent(diffChange).replace('%','');
 		var direction = foreignBorn.change > swedenBorn.change ? 'dessutom ökat' : 'dock minskat';
 
-		var str = 'Var en person är född är en av de mest avgörande faktorerna för risken att bli arbetslös som akademiker. Personer födda utanför Norden har ' + diffToday + ' procentenheter högre arbetslöshet än svenskfödda. ';
+		var str = 'Var en person är född är en av de mest avgörande faktorerna för risken att bli arbetslös för personer med minst två års eftergymnasial utbildning. Personer födda utanför Norden har ' + diffToday + ' procentenheter högre arbetslöshet än svenskfödda. ';
 		
 		if (diffChange!==0) {
 			str += ' Skillnaden har ' + direction + ' något (' + diffChangeStr + ' procentenheter) sedan förra året.';
