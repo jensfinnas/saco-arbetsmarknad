@@ -48,25 +48,29 @@ var dynamicSubtitles = {
 		});
 		var highest = valuesSortedToday[0];
 		var lowest = valuesSortedToday[valuesSortedToday.length - 1];
-		var diff = formatPercent(highest.today - lowest.today).replace("%","");
+		var diff = highest.today - lowest.today;
+		var diffStr = formatPercent(diff).replace("%","");
 		var changeMost = valuesSortedChange[0];
 		var changeLeast = valuesSortedChange[valuesSortedChange.length - 1];
-		var changeDiff = formatPercent(Math.abs(changeMost.change - changeLeast.change)).replace("%","");
+		var changeDiff = Math.abs(changeMost.change - changeLeast.change);
+		var changeDiffStr = formatPercent(changeDiff).replace("%","");
 
 		var str;
 		if (diff == 0) {
 			str = 'Den öppna arbetslösheten är i dag lika hög bland män och kvinnor med minst två års eftergymnasial utbildning. Detta tillhör ovanligheterna. De senaste åren har kvinnors arbetslöshet varit lägre än mäns. '
 		}
 		else {
-			str = 'Den öppna arbetslöshet bland personer med minst två års eftergymnasial utbildning är ' + diff + ' procentenheter högre bland '+highest.nameFull.toLowerCase() + ' än bland '+ lowest.nameFull.toLowerCase() + '. ';	
+			str = 'Den öppna arbetslöshet bland personer med minst två års eftergymnasial utbildning är ' + diffStr + ' procentenheter högre bland '+highest.nameFull.toLowerCase() + ' än bland '+ lowest.nameFull.toLowerCase() + '. ';	
 			
-			if (changeMost.nameFull == highest.nameFull) {
-				str += 'Skillnaden har dessutom ökat ';
+			if (changeDiff > 0) {
+				if (changeMost.nameFull == highest.nameFull) {
+					str += 'Skillnaden har dessutom ökat ';
+				}
+				else {
+					str += 'Skillnaden däremot har minskat ';
+				}
+				str += ' med ' + changeDiffStr + ' procentenheter jämfört med samma tidpunkt förra året.';
 			}
-			else {
-				str += 'Skillnaden däremot har minskat ';
-			}
-			str += ' med ' + changeDiff + ' procentenheter sedan förra året.';
 		}
 
 		return str;	
@@ -115,7 +119,7 @@ var dynamicSubtitles = {
 		var str = 'Var en person är född är en av de mest avgörande faktorerna för risken att bli arbetslös för personer med minst två års eftergymnasial utbildning. Personer födda utanför Norden har ' + diffToday + ' procentenheter högre arbetslöshet än svenskfödda. ';
 		
 		if (diffChange!==0) {
-			str += ' Skillnaden har ' + direction + ' något (' + diffChangeStr + ' procentenheter) sedan förra året.';
+			str += ' Skillnaden har ' + direction + ' något (' + diffChangeStr + ' procentenheter) jämfört med samma tidpunkt förra året.';
 		}
 		return str;
 	}

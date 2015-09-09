@@ -83,54 +83,55 @@ BarChart = (function() {
     	change: 'Förändring',
     	lastYear: formatMonthYear(self.opts.date.sameMonthLastYear()).capitalize()
     }
-
-    // Add container for mobile version (plain table)
-    self.$el.append($('<div/>').attr('class', 'data-table'));
  
- 		// Add source and time
- 		var $source = $('<div/>')
- 				.attr('class', 'source-time');
- 		/*$source.append(
- 			$('<small/>')
- 				.attr('class', 'time')
- 				.html("Siffrorna är från " + formatMonthYear(self.opts.date) + ".")
- 		);*/
- 		$source.append(
- 			$('<small/>')
- 				.attr('class', 'source')
- 				.html('Källor: Arbetsförmedlingen och SCB/RAMS')
- 		);
- 		self.$el.append($source);
+	// Add source and time
+	var $source = $('<div/>')
+			.attr('class', 'source-time');
+	/*$source.append(
+		$('<small/>')
+			.attr('class', 'time')
+			.html("Siffrorna är från " + formatMonthYear(self.opts.date) + ".")
+	);*/
+	$source.append(
+		$('<small/>')
+			.attr('class', 'source')
+			.html('Källor: Arbetsförmedlingen och SCB/RAMS')
+	);
+	self.$el.append($source);
 
- 		// Add 'show change' button
- 		var $viewButtons = $('<div/>').attr('class', 'view-buttons desktop');
- 		$viewButtons.append(
- 			$('<button/>')
- 				.text('Dölj förändring')
- 				.attr('class', 'btn btn-hide-change ' + (!self.opts.showChange ? 'active' : ''))
- 				.click(function() {
- 					$(this).addClass('active')
- 						.siblings('.btn-show-change')
- 						.removeClass('active');
+	// Add 'show change' button
+	var $viewButtons = $('<div/>').attr('class', 'view-buttons desktop');
+	$viewButtons.append(
+		$('<button/>')
+			.text('Dölj förändring')
+			.attr('class', 'btn btn-hide-change ' + (!self.opts.showChange ? 'active' : ''))
+			.click(function() {
+				$(this).addClass('active')
+					.siblings('.btn-show-change')
+					.removeClass('active');
 
- 					self.opts.showChange = false;
- 					self.update();
- 				})
- 			)
+				self.opts.showChange = false;
+				self.update();
+			})
+		)
 
- 		$viewButtons.append(
- 			$('<button/>')
- 				.text('Visa förändring')
- 				.attr('class', 'btn btn-show-change ' + (self.opts.showChange ? 'active' : ''))
- 				.click(function() {
- 					$(this).addClass('active')
- 						.siblings('.btn-hide-change')
- 						.removeClass('active');
- 					self.opts.showChange = true;
- 					self.update();
- 				})
- 			)
- 		self.$el.append($viewButtons)
+	$viewButtons.append(
+		$('<button/>')
+			.text('Visa förändring')
+			.attr('class', 'btn btn-show-change ' + (self.opts.showChange ? 'active' : ''))
+			.click(function() {
+				$(this).addClass('active')
+					.siblings('.btn-hide-change')
+					.removeClass('active');
+				self.opts.showChange = true;
+				self.update();
+			})
+		)
+	self.$el.append($viewButtons)
+
+	// Add container for mobile version (plain table)
+    self.$el.append($('<div/>').attr('class', 'data-table'));
+
 
     if (!columns || columns.length == 0) {
     	console.error('Error: Add an array of columns');
@@ -231,8 +232,12 @@ BarChart = (function() {
 			var $table = $('<table/>').attr('class','table');
 			var $tableHeader = $('<tr/>');
 			$tableHeader.append($('<th/>').text('Grupp'));
-			$tableHeader.append($('<th/>').html('Arbetslöshet<br/>(' + self.label.today.toLowerCase() + ')'));
-			$tableHeader.append($('<th/>').text('Förändring'));
+			$tableHeader.append($('<th/>')
+				.attr('class', 'text-right')
+				.html('Arbetslöshet<br/>(' + self.label.today.toLowerCase() + ')'));
+			$tableHeader.append($('<th/>')
+				.attr('class', 'text-right')
+				.text('Förändring'));
 			$table.append($tableHeader);
 
 			for (var i=1; i<values[0].length; i++) {
