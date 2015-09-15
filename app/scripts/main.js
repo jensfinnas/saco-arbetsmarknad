@@ -247,7 +247,7 @@ BarChart = (function() {
 				var $tr = $('<tr/>');
 				$tr.append($('<td/>').attr('class', 'group').text(label));
 				$tr.append($('<td/>').attr('class', 'today number').text(formatPercent(today)));
-				$tr.append($('<td/>').attr('class', 'change number').text(formatPercent(today - lastYear)));
+				$tr.append($('<td/>').attr('class', 'change number').text(formatPercent(today - lastYear).replace("%"," %-enheter")));
 				$table.append($tr);
 			}
 			self.$el.find('.data-table').append($table);
@@ -453,6 +453,7 @@ Handlebars.registerHelper('ifCond', function(v1, v2, options) {
 
 // Formating
 var formatPercent = locale.numberFormat('.1%');
+var formatPercentUnit = locale.numberFormat('.1%');
 var formatPercentSmall = locale.numberFormat('.2%');
 var formatMonthYear = locale.timeFormat('%B %Y');
 var formatYearMonthDay = locale.timeFormat('%Y-%m-%d');
