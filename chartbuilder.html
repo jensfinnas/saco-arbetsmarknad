@@ -1,0 +1,17 @@
+<!DOCTYPE html> <html class=no-js> <head> <meta charset=utf-8> <title>saco arbetsmarknad</title> <meta name=description content=""> <meta name=viewport content="width=device-width"> <link rel="shortcut icon" href=/6df2b309.favicon.ico> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel=stylesheet href=styles/7d721822.vendor.css> <link rel=stylesheet href=styles/99f9f850.main.css> <script src=scripts/vendor/3e1dbd5e.modernizr.js></script>  <body id=chartbuilder> <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]--> <!-- Templates --> <script id=template-columns type=text/x-handlebars-template>{{#each this}}
+        <li><h4>{{key}}</h4></li>
+        <ul>
+        {{#each values}}
+          <li class="checkbox">
+            <label>
+              <input type="checkbox" class="checkbox" value={{column}} name="column"/>
+              {{name_short}}
+            </label>
+          </li>
+        {{/each}}
+        </ul>
+      {{/each}}</script> <script id=template-months type=text/x-handlebars-template>{{#each this}}
+      <option value="{{value}}">{{name}}</option>
+    {{/each}}</script> <div id=controls> <form onchange=chartBuilderUpdate()> <div class=group> <h3>Välj serier</h3> <ul id=columns class=checkbox></ul> </div> <div class=group> <h3>Välj månad</h3> <select id=months class=form-control></select> <div> <small> Om du väljer "senaste" kommer grafiken uppdateras med den senaste datan automatiskt när ny data läggs till. </small> </div> </div> <div class=group> <h3>Välj vilken vy som ska visas först</h3> <ul id=charts> <li><label><input value=false type=radio name=showChange checked> Läget just nu</label></li> <li><label><input value=true type=radio name=showChange checked> Läget just nu + läget vid samma tidpunkt i fjol</label></li> </ul> </div> <div class=group> <h3>Välj sortering</h3> <ul id=charts> <li><label><input value=false type=radio name=sort checked> Ingen</label></li> <li><label><input value=name type=radio name=sort> Namn</label></li> <li><label><input value=today type=radio name=sort> Arbetslöshet i dag</label></li> <li><label><input value=change type=radio name=sort> Förändring jämfört med i fjol</label></li> </ul> </div> <div class=group> <h3>Hur stora ska graferna vara?</h3> <ul> <li><label>Höjd: <input id=height value=200></label></li> </ul> </div> </form> </div> <!-- End of controls --> <div id=preview> <h3>Förhandsvisning</h3> <code id=url></code> <div id=iframe-parent></div> </div> <script src=scripts/0598455a.vendor.js></script> <script src=scripts/e29936b0.main.js></script> <script>initChartBuilder();</script>  
