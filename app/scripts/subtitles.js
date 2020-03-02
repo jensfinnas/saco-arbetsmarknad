@@ -12,10 +12,10 @@ var numberToText = {
 // Generate dynamic subtitles for specfic categories
 var dynamicSubtitles = {
 	'Utbildning': function(values) {
-		var valuesSortedToday = values.slice(0).sort(function(a, b){ 
+		var valuesSortedToday = values.slice(0).sort(function(a, b){
 				return d3.descending(a.today, b.today);
 			});
-		var valuesSortedChange = values.slice(0).sort(function(a, b){ 
+		var valuesSortedChange = values.slice(0).sort(function(a, b){
 				return d3.descending(a.change, b.change);
 			});
 
@@ -26,24 +26,24 @@ var dynamicSubtitles = {
 		var increaseN = values.filter(function(d) { return d.change > 0 }).length;
 		var decreaseN = values.filter(function(d) { return d.change < 0 }).length;
 		var increaseShare = increaseN / totalN;
-		var decreaseShare = decreaseShare / totalN;
-		var strToday = 'Bland personer med minst två åre eftergymnasial utbildning är den öppna arbetslösheten just nu högst bland akademiker utbildade inom ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer inom ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
+		var decreaseShare = decreaseN / totalN;
+		var strToday = 'Bland personer med minst två åre eftergymnasial utbildning är den öppna arbetslösheten just nu högst bland akademiker utbildade inom ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer inom ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;
 		var strChange = 'Jämfört med samma tidpunkt förra året ';
 		if (increaseShare > decreaseShare) {
-			var shareStr = increaseShare == 1 ? 'samtliga' : numberToText[increaseN] + ' av ' + numberToText[totalN]; 
-			strChange += 'ökar arbetslösheten inom ' + shareStr + ' utbildningsgrupper.' 
+			var shareStr = increaseShare == 1 ? 'samtliga' : numberToText[increaseN] + ' av ' + numberToText[totalN];
+			strChange += 'ökar arbetslösheten inom ' + shareStr + ' utbildningsgrupper.'
 		}
 		else {
-			var shareStr = decreaseShare == 0 ? 'samtliga' : numberToText[decreaseN] + ' av ' + numberToText[totalN]; 
-			strChange += 'minskar arbetslösheten inom ' + shareStr + ' utbildningsgrupper.';	
+			var shareStr = decreaseShare == 0 ? 'samtliga' : numberToText[decreaseN] + ' av ' + numberToText[totalN];
+			strChange += 'minskar arbetslösheten inom ' + shareStr + ' utbildningsgrupper.';
 		}
 		return strToday + ' ' + strChange;
 	},
 	'Kön': function(values) {
-		var valuesSortedToday = values.slice(0).sort(function(a, b){ 
+		var valuesSortedToday = values.slice(0).sort(function(a, b){
 			return d3.descending(a.today, b.today);
 		});
-		var valuesSortedChange = values.slice(0).sort(function(a, b){ 
+		var valuesSortedChange = values.slice(0).sort(function(a, b){
 			return d3.descending(a.change, b.change);
 		});
 		var highest = valuesSortedToday[0];
@@ -60,9 +60,11 @@ var dynamicSubtitles = {
 			str = 'Den öppna arbetslösheten är i dag lika hög bland män och kvinnor med minst två års eftergymnasial utbildning. Detta tillhör ovanligheterna. De senaste åren har kvinnors arbetslöshet varit lägre än mäns. '
 		}
 		else {
-			str = 'Den öppna arbetslöshet bland personer med minst två års eftergymnasial utbildning är ' + diffStr + ' procentenheter högre bland '+highest.nameFull.toLowerCase() + ' än bland '+ lowest.nameFull.toLowerCase() + '. ';	
-			
-			if (changeDiff > 0) {
+			str = 'Den öppna arbetslöshet bland personer med minst två års eftergymnasial utbildning är ' + diffStr + ' procentenheter högre bland '+highest.nameFull.toLowerCase() + ' än bland '+ lowest.nameFull.toLowerCase() + '. ';
+			if (changeDiffStr = "0,0") {
+				str += 'Det är lika stor skillnad som vid samma tidpunkt förra året.'
+			}
+			else {
 				if (changeMost.nameFull == highest.nameFull) {
 					str += 'Skillnaden har dessutom ökat ';
 				}
@@ -73,13 +75,13 @@ var dynamicSubtitles = {
 			}
 		}
 
-		return str;	
+		return str;
 	},
 	'Ålder': function(values) {
-		var valuesSortedToday = values.slice(0).sort(function(a, b){ 
+		var valuesSortedToday = values.slice(0).sort(function(a, b){
 				return d3.descending(a.today, b.today);
 			});
-		var valuesSortedChange = values.slice(0).sort(function(a, b){ 
+		var valuesSortedChange = values.slice(0).sort(function(a, b){
 				return d3.descending(a.change, b.change);
 			});
 
@@ -90,25 +92,25 @@ var dynamicSubtitles = {
 		var increaseN = values.filter(function(d) { return d.change > 0 }).length;
 		var decreaseN = values.filter(function(d) { return d.change < 0 }).length;
 		var increaseShare = increaseN / totalN;
-		var decreaseShare = decreaseShare / totalN;
-		var strToday = 'Den öppna arbetslösheten för personer med minst två års eftergymnasial utbildning är högst bland i åldern ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer i åldern ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;	
+		var decreaseShare = decreaseN / totalN;
+		var strToday = 'Den öppna arbetslösheten för personer med minst två års eftergymnasial utbildning är högst bland i åldern ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer i åldern ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;
 		var strChange = 'Jämfört med samma tidpunkt förra året ';
 		if (increaseShare > decreaseShare) {
-			var shareStr = increaseShare == 1 ? 'samtliga' : numberToText[increaseN] + ' av ' + numberToText[totalN]; 
-			strChange += 'ökar inom ' + shareStr + ' utbildningsgrupper.' 
+			var shareStr = increaseShare == 1 ? 'samtliga' : numberToText[increaseN] + ' av ' + numberToText[totalN];
+			strChange += 'ökar inom ' + shareStr + ' utbildningsgrupper.'
 		}
 		else {
-			var shareStr = decreaseShare == 0 ? 'samtliga' : numberToText[decreaseN] + ' av ' + numberToText[totalN]; 
-			strChange += 'minskar arbetslösheten inom ' + shareStr + ' åldersgrupper.';	
+			var shareStr = decreaseShare == 0 ? 'samtliga' : numberToText[decreaseN] + ' av ' + numberToText[totalN];
+			strChange += 'minskar arbetslösheten inom ' + shareStr + ' åldersgrupper.';
 		}
 		return strToday + ' ' + strChange;
 	},
 	'Födelseregion': function(values) {
 		var swedenBorn = values.filter(function(d) {
-			return d.name == 'Sverige' 
+			return d.name == 'Sverige'
 		})[0];
 		var foreignBorn = values.filter(function(d) {
-			return d.name == 'Utanför Norden' 
+			return d.name == 'Utanför Norden'
 		})[0];
 
 		var diffToday = formatPercent(foreignBorn.today - swedenBorn.today).replace('%','');
@@ -117,7 +119,7 @@ var dynamicSubtitles = {
 		var direction = foreignBorn.change > swedenBorn.change ? 'dessutom ökat' : 'dock minskat';
 
 		var str = 'Var en person är född är en av de mest avgörande faktorerna för risken att bli arbetslös för personer med minst två års eftergymnasial utbildning. Personer födda utanför Norden har ' + diffToday + ' procentenheter högre arbetslöshet än svenskfödda. ';
-		
+
 		if (diffChange!==0) {
 			str += ' Skillnaden har ' + direction + ' något (' + diffChangeStr + ' procentenheter) jämfört med samma tidpunkt förra året.';
 		}
