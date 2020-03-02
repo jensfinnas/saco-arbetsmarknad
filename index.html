@@ -1,0 +1,72 @@
+<!DOCTYPE html> <html class=no-js> <head> <meta charset=utf-8> <title>saco arbetsmarknad</title> <meta name=description content=""> <meta name=viewport content="width=device-width"> <link rel="shortcut icon" href=/6df2b309.favicon.ico> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel=stylesheet href=styles/7d721822.vendor.css> <link rel=stylesheet href=styles/99f9f850.main.css> <script src=scripts/vendor/3e1dbd5e.modernizr.js></script>  <body id=dashboard class=hidden> <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]--> <!-- Templates --> <script id=template-list type=text/x-handlebars-template><h3>{{ title }}</h3>
+    {{#if items.length}}
+      <table class="table {{value}}">
+      {{#each items}}
+        <tr class="{{ getRowClass @index }}">
+          <td>{{ formatListName key }}</td>
+          <td class="number">{{ formatPercent value ../value }}</td>
+        </tr>
+      {{/each}}
+      </table>
+      <div class="buttons"></div>
+      {{#ifCond value "change"}}
+        <small>Förändringen jämfört med samma tidpunkt förra året.</small>
+      {{/ifCond}}
+    {{else}}
+      <div>{{ emptyMessage }}</div>
+    {{/if}}</script> <div id=total-unemployment> <div class=content> <span class=share></span> av akademikerna är öppet arbetslösa just nu. Det motsvarar <span class=total></span> personer. </div> </div> <div role=tabpanel class=tabpanel> <!-- Nav tabs --> <ul class="nav nav-tabs" role=tablist> <li role=presentation class=active><a href=#education aria-controls=education role=tab data-toggle=tab>Utbildning</a></li> <li role=presentation><a href=#age aria-controls=age role=tab data-toggle=tab>Ålder</a></li> <li role=presentation><a href=#gender aria-controls=gender role=tab data-toggle=tab>Kön</a></li> <li role=presentation><a href=#born aria-controls=born role=tab data-toggle=tab>Födelseregion</a></li> </ul> <!-- Tab panes --> <div class=tab-content> <div role=tabpanel class="tab-pane active" id=education> <div id=education-chart class=chart data-columns=Humaniora_och_konst,Hälso_och_sjukvård_samt_social_omsorg,Lant_och_skogsbruk_samt_djursjukvård,Naturvetenskap_matematik_data,Pedagogik_och_lärarutbildning,Samhällsvetenskap_juridik_handel_adm,Teknik_och_tillverkning,Övrig_utbildning data-month=latest data-sort=today data-subtitle=Utbildning></div> </div> <div role=tabpanel class=tab-pane id=age> <div id=age-chart class=chart data-columns=Age_29,Age_3039,Age_4049,Age_5059,Age_6064 data-month=latest data-sort=false data-subtitle=Ålder></div> </div> <div role=tabpanel class=tab-pane id=gender> <div id=gender-chart class=chart data-columns=Kvinnor,Män data-month=latest data-sort=false data-subtitle=Kön></div> </div> <div role=tabpanel class=tab-pane id=born> <div id=born-chart class=chart data-columns=Sverige,Norden_exkl_Sverige,Utanför_Norden data-month=latest data-sort=false data-subtitle=Födelseregion></div> </div> </div> </div> <!-- end of tab panel --> <!--
+    <div id="lists">
+      <div class="list-row">
+        <div id="highest-today" class="dashboard-list"
+          data-end="highest"
+          data-value="today"
+          data-title="Grupper med högst arbetslöshet"
+        ></div>
+        <div id="lowest-today" class="dashboard-list"
+          data-end="lowest"
+          data-value="today"
+          data-title="Grupper med lägst arbetslöshet"
+        ></div>
+      </div>
+
+
+      <div class="list-row">
+        <div id="highest-change" class="dashboard-list"
+          data-end="highest"
+          data-value="change"
+          data-title="Här ökar arbetslösheten"
+          data-empty-message="Det finns inga grupper där arbetslösheten har ökat jämfört med för ett år sedan."
+        ></div>
+      
+        <div id="lowest-change" class="dashboard-list"
+          data-end="lowest"
+          data-value="change"
+          data-title="Här minskar arbetslösheten"
+          data-empty-message="Det finns inga grupper där arbetslösheten har minskat jämfört med för ett år sedan."
+        ></div>
+      </div>
+    </div>
+    --> <script src=scripts/0598455a.vendor.js></script> <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. --> <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-59792666-1', 'auto');
+  ga('send', 'pageview');</script> <script src=scripts/e29936b0.main.js></script> <script type=text/javascript src=//use.typekit.net/zxg8sjd.js></script> <script type=text/javascript>try { Typekit.load(); } catch (e) { console.log(e); }</script> <script type=text/javascript>$.getJSON(dataUrl, function(resp) {
+      dataObj = initData(resp);
+      var listData = getListData();
+      initTotals();
+      initDashboardLists(listData);
+      $('body').removeClass('hidden');
+      initCharts();
+      if (isIframe) {
+        var pymChild = new pym.Child();
+        pymChild.sendHeight();
+
+        $('.height-change').click(function() {
+          pymChild.sendHeight();
+        })
+      } 
+    });</script>  
