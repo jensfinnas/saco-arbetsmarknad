@@ -93,11 +93,11 @@ var dynamicSubtitles = {
 		var decreaseN = values.filter(function(d) { return d.change < 0 }).length;
 		var increaseShare = increaseN / totalN;
 		var decreaseShare = decreaseN / totalN;
-		var strToday = 'Den öppna arbetslösheten för personer med minst två års eftergymnasial utbildning är högst bland i åldern ' + highest.nameFull.toLowerCase() + '. De har ' + diff + ' procentenheter högre arbetslöshet än personer i åldern ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;
+		var strToday = 'Den öppna arbetslösheten för personer med minst två års eftergymnasial utbildning är högst i åldersspannet ' + highest.nameFull.toLowerCase() + '. Den här åldersgruppen har ' + diff + ' procentenheter högre arbetslöshet än personer i åldern ' + lowest.nameFull.toLowerCase() + '.<br/> ' ;
 		var strChange = 'Jämfört med samma tidpunkt förra året ';
 		if (increaseShare > decreaseShare) {
 			var shareStr = increaseShare == 1 ? 'samtliga' : numberToText[increaseN] + ' av ' + numberToText[totalN];
-			strChange += 'ökar inom ' + shareStr + ' utbildningsgrupper.'
+			strChange += 'ökar arbetslösheten inom ' + shareStr + ' utbildningsgrupper.'
 		}
 		else {
 			var shareStr = decreaseShare == 0 ? 'samtliga' : numberToText[decreaseN] + ' av ' + numberToText[totalN];
