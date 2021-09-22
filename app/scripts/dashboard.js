@@ -13,7 +13,7 @@ function getListData() {
 		var cat = dataObj.columns[key].category;
 		var columnName = dataObj.columns[key].column;
 		// Exclude columns categorized with date and 'Övriga'
-		if (cat !== 'time' && cat !== 'Övriga' && cat !== 'Antal' && columnName !== 'Övrig_utbildning') {
+		if (key == 'Samtliga' || cat !== 'time' && cat !== 'Övriga' && cat !== 'Antal' && columnName !== 'Övrig_utbildning') {
 			_change[key] = _today[key] - lastYear[key];
 		}
 		else {
@@ -24,16 +24,14 @@ function getListData() {
 	// Transform objects to arrays
 	var today = d3.entries(_today);
 	var change = d3.entries(_change);
-
 	return {
 		today: {
 			highest: today.slice(0)
 				.sort(function(a, b){ return d3.descending(a.value, b.value) })
-				.slice(0,10)
-			,
+				.slice(0,20),
 			lowest: today.slice(0)
 				.sort(function(a, b){ return d3.ascending(a.value, b.value); })
-				.slice(0,10)
+				.slice(0,20)
 		},
 		change: {
 			highest: change
@@ -49,7 +47,7 @@ function initTotals() {
 	var d = getCurrentUnemployment();
 	var $container = $("#total-unemployment");
 	$container.find('.share').text(formatPercent(d['Samtliga']).replace('%',' procent'));
-	$container.find('.total').text(d['Antal_arbetslosa']);
+	$container.find('.total').text(d['Antal_arbetslosa'].toLocaleString('sv'));
 }
 function initDashboardLists(listData) {
 	var tt = Handlebars.compile( $("#template-list").html() );

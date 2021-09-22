@@ -17,8 +17,8 @@ function initData(resp) {
 		return row;
 	})
 	// Sort so that latest value is last in array
-	.sort(function(a, b){ 
-		return d3.ascending(a['Månad'], b['Månad']); 
+	.sort(function(a, b){
+		return d3.ascending(a['Månad'], b['Månad']);
 	});
 
 	return resp;
@@ -47,7 +47,7 @@ BarChart = (function() {
     self.subtitles = dynamicSubtitles;
 
     // The chart element has to have an id
-    self.id = '#' + id; 
+    self.id = '#' + id;
 
     // Get the right row from the data file
     self.row = self.data.first(function(d) {
@@ -55,10 +55,10 @@ BarChart = (function() {
 		});
 
     // An object with column names and properties
-    self.columnDictionary = dataObj.columns; 
+    self.columnDictionary = dataObj.columns;
 
     // The element that wraps the chart
-    self.$el = $(self.id); 
+    self.$el = $(self.id);
 
     // Add title
     if (self.opts.title) {
@@ -76,28 +76,13 @@ BarChart = (function() {
     }
 
     // Store chart containers here (jquery)
-    self.chartContainers = {}; 
+    self.chartContainers = {};
     self.chartContainers.today = self.$el.append($('<div/>').attr('class', 'chart-today desktop'));
     self.label = {
     	today: formatMonthYear(self.opts.date).capitalize(),
     	change: 'Förändring',
     	lastYear: formatMonthYear(self.opts.date.sameMonthLastYear()).capitalize()
     }
- 
-	// Add source and time
-	var $source = $('<div/>')
-			.attr('class', 'source-time');
-	/*$source.append(
-		$('<small/>')
-			.attr('class', 'time')
-			.html("Siffrorna är från " + formatMonthYear(self.opts.date) + ".")
-	);*/
-	$source.append(
-		$('<small/>')
-			.attr('class', 'source')
-			.html('Källor: Arbetsförmedlingen och SCB/RAMS')
-	);
-	self.$el.append($source);
 
 	// Add 'show change' button
 	var $viewButtons = $('<div/>').attr('class', 'view-buttons desktop');
@@ -127,10 +112,24 @@ BarChart = (function() {
 				self.update();
 			})
 		)
+	
 	self.$el.append($viewButtons)
+
+
 
 	// Add container for mobile version (plain table)
     self.$el.append($('<div/>').attr('class', 'data-table'));
+
+
+	// Add source and time
+	var $source = $('<div/>')
+			.attr('class', 'source-time');
+	$source.append(
+		$('<small/>')
+			.attr('class', 'source')
+			.html('Källor: Arbetsförmedlingen och SCB/RAMS<br>Statistiken visar andelen som är öppet arbetslösa eller deltar i något arbetsmarknadsprogram.')
+	);
+	self.$el.append($source);
 
 
     if (!columns || columns.length == 0) {
@@ -140,8 +139,8 @@ BarChart = (function() {
 
     // Define chart settings that are same for both chart types here
     var colors = {};
-    colors[self.label.today] = '#3F98A6'; 
-    colors[self.label.change] = '#E38733'; 
+    colors[self.label.today] = '#3F98A6';
+    colors[self.label.change] = '#E38733';
 
     self.chartSetup = {
     	bindto: self.id + ' .chart-today',
@@ -191,7 +190,7 @@ BarChart = (function() {
   	if (self.opts.subtitle in self.subtitles) {
   		var subtitle = self.subtitles[self.opts.subtitle](self.values);
   		self.opts.subtitle = subtitle;
-  		
+
   	}
 
   	self.$el.find('.subtitle').html(self.opts.subtitle);
@@ -202,19 +201,22 @@ BarChart = (function() {
 	BarChart.prototype.drawTodayChart = function() {
 		var self = this;
 		var values = self.getValues();
+		// Hack: Remove "Samtliga" from chart data, assuming that it is placed last
+		// in the array. 
+		var chartValues = values.map(function(d) { return d.slice(0, -1) } )
 		var chartOpts = self.chartSetup;
-		var rotated = values[0].length > 6;
-		
+		var rotated = chartValues[0].length > 6;
+
 		// Rotate chart if there are more than 6 columns
 		if (rotated) {
-			chartOpts.axis.rotated = values[0].length;
+			chartOpts.axis.rotated = chartValues[0].length;
 			chartOpts.axis.x.height = 200;
 		}
-		chartOpts.data.columns = values;
+		chartOpts.data.columns = chartValues;
 
 		// Set a fixed max value for the y axis so that it won't
 		// change when last years numbers are shown
-		chartOpts.axis.y.max = d3.max(values[1].slice(1, values[1].length).concat( values[1].slice(1, values[2].length) ))
+		chartOpts.axis.y.max = d3.max(chartValues[1].slice(1, chartValues[1].length).concat( chartValues[1].slice(1, chartValues[2].length) ))
 
 		self.charts.today = c3.generate(chartOpts);
 
@@ -237,17 +239,18 @@ BarChart = (function() {
 				.html('Arbetslöshet<br/>(' + self.label.today.toLowerCase() + ')'));
 			$tableHeader.append($('<th/>')
 				.attr('class', 'text-right')
-				.text('Förändring'));
+				.text('Förändring (12 mån)'));
 			$table.append($tableHeader);
 
 			for (var i=1; i<values[0].length; i++) {
 				var label = values[0][i];
 				var today = values[1][i];
 				var lastYear = values[2][i];
+				var change = today - lastYear
 				var $tr = $('<tr/>');
 				$tr.append($('<td/>').attr('class', 'group').text(label));
 				$tr.append($('<td/>').attr('class', 'today number').text(formatPercent(today)));
-				$tr.append($('<td/>').attr('class', 'change number').text(formatPercent(today - lastYear).replace("%"," %-enheter")));
+				$tr.append($('<td/>').attr('class', 'change number').text((change > 0 ? "+" : "") + formatPercent(change).replace("%"," %-enheter")));
 				$table.append($tr);
 			}
 			self.$el.find('.data-table').append($table);
@@ -273,8 +276,8 @@ BarChart = (function() {
 				return sameYearAndMonth(d['Månad'], dateLastYear);
 			});
 
-		// Filter the selected row to an array of values 
-		var values = []; 
+		// Filter the selected row to an array of values
+		var values = [];
 		self.columns.forEach(function(column) {
 			try {
 				values.push({
@@ -305,7 +308,15 @@ BarChart = (function() {
 			today: self.label.today,
 			lastYear: self.label.lastYear
 			//change: self.label.change
-		}); 
+		});
+		values.push({
+			name: "Samtliga",
+			nameFull: "Samtliga",
+			today: row["Samtliga"],
+			lastYear: rowLastYear["Samtliga"],
+			change: row["Samtliga"] - rowLastYear["Samtliga"]
+
+		})
 
 		var resp = [
 			values.map(function(d) { return d.name; }),
@@ -326,7 +337,7 @@ BarChart = (function() {
 				columns: self.getValues()
 			});
 
-		// Remove change 
+		// Remove change
 		if (!self.opts.showChange) {
 			self.charts.today.unload([self.label.lastYear]);
 		}
@@ -334,7 +345,7 @@ BarChart = (function() {
 	return BarChart;
 })();
 
-// Iterates all charts with 'chart' class and appends charts 
+// Iterates all charts with 'chart' class and appends charts
 // based on data- attributes
 function initCharts() {
 	$('.chart').each(function() {
@@ -343,7 +354,7 @@ function initCharts() {
 		// Mandatory settings
 		var id = $el.attr('id');
 		var columns = $el.attr('data-columns').split(',');
-		
+
 		// Optional settings
 		var opts = {};
 		if ($el.hasAttr('data-charts')) opts.charts = $el.attr('data-charts').split(',');
@@ -399,23 +410,23 @@ $.prototype.hasAttr = function(name) {
 }
 
 // Get the first match in array
-if (!Array.prototype.first) 
-{ 
-   Array.prototype.first = function(predicate) 
-   { 
-     "use strict";    
-     if (this == null) 
-       throw new TypeError();       
-     if (typeof predicate != "function") 
-       throw new TypeError();  
-      
-     for (var i = 0; i < this.length; i++) { 
-       if (predicate(this[i])) { 
-         return this[i]; 
-       } 
-     }       
-     return null; 
-   } 
+if (!Array.prototype.first)
+{
+   Array.prototype.first = function(predicate)
+   {
+     "use strict";
+     if (this == null)
+       throw new TypeError();
+     if (typeof predicate != "function")
+       throw new TypeError();
+
+     for (var i = 0; i < this.length; i++) {
+       if (predicate(this[i])) {
+         return this[i];
+       }
+     }
+     return null;
+   }
 }
 
 // Extend Date object with last year function that gets the first day of the same month last year
@@ -467,6 +478,3 @@ var isIframe = self !== top;
 var key = '1I7A8rydoRA6n28W6Tnt6nCpEYeUbI2J1dcVrEy54G7Y';
 var mode = getQueryString('stage') == 'true' ? 'stage' : 'production';
 var dataUrl = 'https://s3-eu-west-1.amazonaws.com/tabletop-proxy/saco-arbetsmarknad-' + mode + '/' + key + '.json';
-
-
-

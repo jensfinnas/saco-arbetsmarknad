@@ -1,6 +1,6 @@
 $icon-font-path: "fonts/";
 // bower:scss
-@import "../_bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap.scss";
 // endbower
 
 // Typography etc from saco's own css
@@ -26,6 +26,9 @@ a, a:active, a:visited {
 }
 a:hover {
   color: darken($color-saco, 10%);
+}
+.bold {
+  font-weight: bold;
 }
 .btn {
   background-color: #fff;
@@ -206,7 +209,10 @@ a:hover {
 
 }
 
-
+// Table overrieds
+.table > tbody > tr > td {
+  padding: 8px 2px 8px 0;
+}
 
 // MOBILE CHART (a basic table)
 .data-table {
@@ -283,9 +289,6 @@ a:hover {
 
   // Source and time
   .source-time {
-    display: inline-block;
-    float: right;
-
     .time, .source {
       display: block;
       text-align: right;
@@ -310,7 +313,6 @@ a:hover {
     display: inherit;
   }
   .data-table {
-    //display: none;
     margin-top: 30px;
     margin-bottom: 0;
   }
