@@ -5,8 +5,8 @@ Det här är en visualisering som visar den aktuella arbetslösheten bland akade
 1) En dashboard med den totala arbetslösheten och skärningar på kön, utbildning m.m.
 2) En grafbyggare (/chartbuilder.html) för att generera grafer på samma data för inbäddning.
 
-Dashboard: http://nansen.github.io/saco-arbetsmarknad/
-Grafbyggaren: http://nansen.github.io/saco-arbetsmarknad/chartbuilder.html
+Dashboard: http://makingwaves-se-us.github.io/saco-arbetsmarknad/
+Grafbyggaren: http://makingwaves-se-us.github.io/saco-arbetsmarknad/chartbuilder.html
 
 ### Data
 
